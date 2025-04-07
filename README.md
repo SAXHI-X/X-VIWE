@@ -1,7 +1,7 @@
 # X-VIWE
 
 
-# Insatall
+# Install
 
 cd /home/ubuntu
 

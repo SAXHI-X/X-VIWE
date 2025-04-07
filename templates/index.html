@@ -1,1 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-VIWE Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Modern Gradient Background Animation */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000, #1e1e1e, #333333, #000000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+        }
+        /* Header Styling */
+        .header {
+            width: 100%;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, #00ffea, #ff00c7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+        .header p {
+            font-size: 1rem;
+            color: #ffffff;
+            opacity: 0.8;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        /* Container Styling */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            margin-bottom: 60px;
+        }
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px; /* Increased gap for better separation */
+        }
+        .grid-container:not(.two-column) {
+            margin-bottom: 40px; /* Increased margin for better separation */
+        }
 
+        .grid-container.two-column {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        /* Card Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        /* Card Titles */
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        .card h3 i {
+            font-size: 1.5rem;
+            color: #00ffea;
+        }
+        /* Input Fields */
+        input {
+            padding: 15px;
+            width: calc(100% - 30px);
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-color: #00ffea;
+            outline: none;
+        }
+        /* Buttons */
+        button {
+            padding: 12px 25px;
+            font-size: 14px;
+            background: linear-gradient(135deg, #00ffea, #ff00c7);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #ff00c7, #00ffea);
+            transform: scale(1.05);
+        }
+        button:active {
+            background: linear-gradient(135deg, #00ffea, #ff00c7);
+            transform: scale(0.95);
+        }
+        /* Progress Bars */
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-bar {
+            height: 10px;
+            width: 0%;
+            transition: width 1.5s ease-in-out;
+            border-radius: 10px;
+        }
+        /* Ping Tool */
+        .ping-tool {
+            text-align: center;
+        }
+        .ping-tool button {
+            margin-bottom: 20px;
+        }
+        /* Ping Result Box */
+        .ping-result {
+            font-size: 14px;
+            color: #ffffff;
+            background: rgba(0, 255, 234, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 234, 0.3);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        /* Server Location */
+        .server-location {
+            font-size: 14px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .server-location i {
+            font-size: 1.2rem;
+            color: #00ffaa;
+        }
+        /* Server Status */
+        .server-status {
+            font-size: 14px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .server-status i {
+            font-size: 1.2rem;
+            color: #a6ff00;
+        }
+        .server-status strong {
+            color: #41ff07;
+        }
+
+
+        /* Footer */
+        .footer {
+            font-size: 12px;
+            color: #ffffff;
+            margin-top: 40px; /* Added margin to separate from main content */
+            text-align: center;
+            width: 100%;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer .verified-by {
+            font-size: 12px;
+            color: #fffb2b;
+            margin-left: 5px;
+        }
+        .footer .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer .social-icons a {
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            color: #05B031;
+            transform: scale(1.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .grid-container.two-column {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h3 {
+                font-size: 1rem;
+            }
+            input {
+                font-size: 12px;
+            }
+            button {
+                font-size: 12px;
+            }
+            .ping-result {
+                font-size: 12px;
+            }
+            .footer {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>X-VIWE Dashboard</h1>
+        <p>Monitor your server performance and usage in real-time</p>
+    </div>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Top Box: Enter User Details -->
+        <div class="grid-container">
+            <div class="card">
+                <h3><i class="fas fa-user" aria-label="User"></i>Enter User Details</h3>
+                <form id="user-form" action="/usage" method="POST">
+                    <input type="text" name="user_input" placeholder="Enter User Name" required>
+                    <button type="submit">Check Usage</button>
+                </form>
+            </div>
+        </div>
+        <!-- Two Boxes Below: Server Resources and Ping Test -->
+        <div class="grid-container two-column">
+            <!-- Left Box: Server Resources -->
+            <div class="card">
+                <h3><i class="fas fa-server" aria-label="Server"></i>Server Resources</h3>
+                <div class="resource-item">
+                    <h4><i class="fas fa-microchip" aria-label="CPU"></i>CPU Usage</h4>
+                    <p id="cpu-usage">25%</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="cpu-progress" style="width: 25%; background: #00ffea;"></div>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h4><i class="fas fa-memory" aria-label="Memory"></i>Memory Usage</h4>
+                    <p id="memory-usage">4 GB / 16 GB (25%)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="memory-progress" style="width: 25%; background: #00ffea;"></div>
+                    </div>
+                </div>
+                <div class="resource-item">
+                    <h4><i class="fas fa-hdd" aria-label="Disk"></i>Disk Usage</h4>
+                    <p id="disk-usage">50 GB / 200 GB (25%)</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="disk-progress" style="width: 25%; background: #00ffea;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Box: Ping Test -->
+            <div class="card ping-tool">
+                <h3><i class="fas fa-network-wired" aria-label="Ping"></i>Server Information</h3>
+                <button id="ping-button">Ping Server</button>
+                <div class="ping-result" id="ping-result">Ping: -</div>
+                <div class="server-location">
+                    <i class="fas fa-map-marker-alt" aria-label="Location"></i>
+                    <span>Server Location: <strong id="server-location">New York, USA</strong></span>
+                </div>
+                <div class="server-status">
+                    <i class="fas fa-heartbeat" aria-label="Status"></i>
+                    <span>Server Status: <strong id="server-status">Online</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 X-VIWE. All rights reserved. <span class="verified-by">✍️ Verified by - SAXHI-X</span></p>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // Real-Time Ping Tool
+        const pingButton = document.getElementById("ping-button");
+        const pingResult = document.getElementById("ping-result");
+        pingButton.addEventListener("click", async () => {
+            const startTime = Date.now();
+            pingResult.textContent = "Pinging...";
+            try {
+                const response = await fetch("/ping"); // Replace with your ping endpoint
+                const endTime = Date.now();
+                const pingTime = endTime - startTime;
+                // Update ping result
+                pingResult.textContent = `Ping: ${pingTime} ms`;
+            } catch (error) {
+                pingResult.textContent = "Ping failed";
+            }
+        });
+        // Function to Determine Progress Bar Color
+        function getProgressColor(percentage) {
+            if (percentage <= 50) {
+                return "#00ffea"; // Neon Blue for low usage
+            } else if (percentage > 50 && percentage <= 80) {
+                return "#FFA500"; // Orange for medium usage
+            } else {
+                return "#FF0000"; // Red for high usage
+            }
+        }
+        // Real-Time Server Resource Updates
+        setInterval(async () => {
+            const response = await fetch("/server-status");
+            const data = await response.json();
+            // Update CPU Usage
+            document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
+            const cpuProgress = document.getElementById("cpu-progress");
+            cpuProgress.style.width = `${data.cpu}%`;
+            cpuProgress.style.backgroundColor = getProgressColor(data.cpu);
+            // Update Memory Usage
+            document.getElementById("memory-usage").textContent = `${data.ram}%`;
+            const memoryProgress = document.getElementById("memory-progress");
+            memoryProgress.style.width = `${data.ram}%`;
+            memoryProgress.style.backgroundColor = getProgressColor(data.ram);
+            // Update Disk Usage
+            document.getElementById("disk-usage").textContent = `${data.disk}%`;
+            const diskProgress = document.getElementById("disk-progress");
+            diskProgress.style.width = `${data.disk}%`;
+            diskProgress.style.backgroundColor = getProgressColor(data.disk);
+        }, 1000);
+        // Fetch Server Location
+        (async () => {
+            const response = await fetch("/server-location");
+            const data = await response.json();
+            document.getElementById("server-location").textContent = `${data.city}, ${data.country}`;
+        })();
+    </script>
+</body>
+</html>

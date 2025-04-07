@@ -70,9 +70,9 @@ sudo apt install -y python3-pip python3-venv git sqlite3 socat unzip curl
 # Construct the download URL based on the version
 echo "Downloading X-VIWE version $VERSION..."
 if [ "$VERSION" == "latest" ]; then
-    DOWNLOAD_URL="https://github.com/pathumaaa/X-VIWE/archive/refs/heads/main.zip"
+    DOWNLOAD_URL="https://github.com/SAXHI-X/X-VIWE/archive/refs/heads/main.zip"
 else
-    DOWNLOAD_URL="https://github.com/pathumaaa/X-VIWE/archive/refs/tags/$VERSION.zip"
+    DOWNLOAD_URL="https://github.com/SAXHI-X/X-VIWE/archive/refs/tags/$VERSION.zip"
 fi
 
 cd /home/$USERNAME

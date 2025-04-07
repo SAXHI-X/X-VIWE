@@ -29,7 +29,7 @@ while true; do
             ;;
         2)
             echo "Uninstalling X-VIWE..."
-            bash <(curl -s https://raw.githubusercontent.com/SAXHI-X/X-VIWE/main/rm-XV.sh)
+            bash <(curl -s https://raw.githubusercontent.com/SAXHI-X/X-VIWE/main/X-VIWE.sh)
             echo "X-VIWE has been uninstalled."
             exit 0
             ;;

@@ -6,8 +6,7 @@
 Finding the username on your server operating system
 ```
 whoami
-
-
+```
 ```
 cd /home/ubuntu
 ```

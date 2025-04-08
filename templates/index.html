@@ -12,9 +12,21 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        
+        :root {
+            --primary: #00ffea;
+            --secondary: #ff00c7;
+            --success: #00ff7f;
+            --warning: #ffa500;
+            --danger: #ff3860;
+            --text-light: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #000000, #1e1e1e, #333333, #000000);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a1a2e, #16213e, #000000);
             background-size: 400% 400%;
             animation: gradientAnimation 15s ease infinite;
             display: flex;
@@ -24,115 +36,221 @@
             min-height: 100vh;
             margin: 0;
             color: white;
+            line-height: 1.6;
         }
+        
         /* Header Styling */
         .header {
             width: 100%;
             padding: 40px 0;
             text-align: center;
+            position: relative;
         }
+        
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
             margin: 0;
-            background: linear-gradient(to right, #00ffea, #ff00c7);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 255, 234, 0.3);
         }
+        
         .header p {
-            font-size: 1rem;
-            color: #ffffff;
-            opacity: 0.8;
-            margin-top: 10px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 15px;
             letter-spacing: 1px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
+        
         /* Container Styling */
         .container {
             width: 90%;
-            max-width: 1200px;
+            max-width: 1400px;
             padding: 20px;
             margin-bottom: 60px;
         }
+        
         /* Grid Layout */
         .grid-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 30px; /* Increased gap for better separation */
+            gap: 30px;
         }
-        .grid-container:not(.two-column) {
-            margin-bottom: 40px; /* Increased margin for better separation */
-        }
-
+        
         .grid-container.two-column {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+        
+        .grid-container.three-column {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
         
         /* Card Styling */
         .card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--card-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 255, 234, 0.1),
+                rgba(255, 0, 199, 0.1)
+            );
+            transform: rotate(30deg);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
         }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
         /* Card Titles */
         .card h3 {
             margin-top: 0;
-            font-size: 1.2rem;
-            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .card h3 i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* Resource Items */
+        .resource-item {
+            margin-bottom: 25px;
+        }
+        
+        .resource-item h4 {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
         }
-        .card h3 i {
-            font-size: 1.5rem;
-            color: #00ffea;
+        
+        .resource-item h4 i {
+            width: 20px;
+            text-align: center;
         }
+        
+        .resource-item p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
         /* Input Fields */
-        input {
+        input, select {
             padding: 15px;
-            width: calc(100% - 30px);
-            margin-bottom: 15px;
+            width: 100%;
+            margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             font-size: 14px;
             background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            transition: border-color 0.3s ease;
+            color: white;
+            transition: all 0.3s ease;
         }
-        input:focus {
-            border-color: #00ffea;
+        
+        input:focus, select:focus {
+            border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 255, 234, 0.2);
         }
+        
         /* Buttons */
         button {
-            padding: 12px 25px;
+            padding: 14px 28px;
             font-size: 14px;
-            background: linear-gradient(135deg, #00ffea, #ff00c7);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+        
         button:hover {
-            background: linear-gradient(135deg, #ff00c7, #00ffea);
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
+        
+        button:hover::before {
+            opacity: 1;
+        }
+        
         button:active {
-            background: linear-gradient(135deg, #00ffea, #ff00c7);
-            transform: scale(0.95);
+            transform: translateY(0);
         }
+        
         /* Progress Bars */
         .progress-container {
             width: 100%;
@@ -140,128 +258,308 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 10px;
+            height: 12px;
         }
+        
         .progress-bar {
-            height: 10px;
+            height: 100%;
             width: 0%;
-            transition: width 1.5s ease-in-out;
+            transition: width 1s ease-in-out, background 0.3s ease;
             border-radius: 10px;
+            position: relative;
         }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.3)
+            );
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+        
         /* Ping Tool */
         .ping-tool {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+        
         .ping-tool button {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
+        
         /* Ping Result Box */
         .ping-result {
             font-size: 14px;
-            color: #ffffff;
+            color: white;
             background: rgba(0, 255, 234, 0.1);
-            padding: 15px 20px;
+            padding: 15px 25px;
             border-radius: 10px;
             border: 1px solid rgba(0, 255, 234, 0.3);
-            display: inline-block;
             margin-bottom: 20px;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
-        /* Server Location */
-        .server-location {
-            font-size: 14px;
-            color: #ffffff;
+        
+        .ping-result.good {
+            background: rgba(0, 255, 127, 0.1);
+            border-color: rgba(0, 255, 127, 0.3);
+        }
+        
+        .ping-result.medium {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: rgba(255, 165, 0, 0.3);
+        }
+        
+        .ping-result.bad {
+            background: rgba(255, 56, 96, 0.1);
+            border-color: rgba(255, 56, 96, 0.3);
+        }
+        
+        /* Server Info */
+        .server-info-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
-        .server-location i {
+        
+        .server-info-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .server-info-item i {
             font-size: 1.2rem;
-            color: #00ffaa;
+            min-width: 24px;
+            text-align: center;
         }
-        /* Server Status */
-        .server-status {
-            font-size: 14px;
-            color: #ffffff;
-            display: flex;
+        
+        .server-info-item .info-text {
+            flex: 1;
+        }
+        
+        .server-info-item .info-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+        
+        .server-info-item .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
-        .server-status i {
-            font-size: 1.2rem;
-            color: #a6ff00;
+        
+        .status-indicator.online {
+            background: rgba(0, 255, 127, 0.1);
+            color: var(--success);
         }
-        .server-status strong {
-            color: #41ff07;
+        
+        .status-indicator.offline {
+            background: rgba(255, 56, 96, 0.1);
+            color: var(--danger);
         }
-
-
+        
+        .status-indicator.warning {
+            background: rgba(255, 165, 0, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-indicator::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-indicator.online::before {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+        
+        .status-indicator.offline::before {
+            background: var(--danger);
+            box-shadow: 0 0 8px var(--danger);
+        }
+        
+        .status-indicator.warning::before {
+            background: var(--warning);
+            box-shadow: 0 0 8px var(--warning);
+        }
+        
         /* Footer */
         .footer {
             font-size: 12px;
-            color: #ffffff;
-            margin-top: 40px; /* Added margin to separate from main content */
+            color: var(--text-light);
+            margin-top: 60px;
             text-align: center;
             width: 100%;
-            padding: 10px 0;
+            padding: 20px 0;
             position: relative;
-            bottom: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             background: rgba(255, 255, 255, 0.05);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .footer .verified-by {
-            font-size: 12px;
-            color: #fffb2b;
-            margin-left: 5px;
-        }
-        .footer .social-icons {
+        
+        .footer-content {
             display: flex;
-            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
         }
-
-        .footer .social-icons a {
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0, 255, 234, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            border: 1px solid rgba(0, 255, 234, 0.3);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
             color: white;
             font-size: 16px;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
         }
-
-        .footer .social-icons a:hover {
-            color: #05B031;
-            transform: scale(1.2);
+        
+        .social-icons a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+            background: rgba(0, 255, 234, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 255, 234, 0.2);
         }
-
+        
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            .header p {
-                font-size: 0.9rem;
-            }
+        @media (max-width: 992px) {
             .grid-container.two-column {
                 grid-template-columns: 1fr;
             }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
             .card {
                 padding: 20px;
             }
-            .card h3 {
-                font-size: 1rem;
+            
+            .container {
+                width: 95%;
             }
-            input {
-                font-size: 12px;
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
             }
-            button {
-                font-size: 12px;
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 10px;
             }
-            .ping-result {
-                font-size: 12px;
-            }
-            .footer {
-                font-size: 10px;
-            }
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 </head>
@@ -269,126 +567,382 @@
     <!-- Header Section -->
     <div class="header">
         <h1>X-VIWE Dashboard</h1>
-        <p>Monitor your server performance and usage in real-time</p>
+        <p>Comprehensive server monitoring and management platform with real-time analytics</p>
     </div>
+    
     <!-- Main Content -->
     <div class="container">
-        <!-- Top Box: Enter User Details -->
+        <!-- User Section -->
         <div class="grid-container">
             <div class="card">
-                <h3><i class="fas fa-user" aria-label="User"></i>Enter User Details</h3>
-                <form id="user-form" action="/usage" method="POST">
-                    <input type="text" name="user_input" placeholder="Enter User Name" required>
-                    <button type="submit">Check Usage</button>
+                <h3><i class="fas fa-user-cog"></i>User Management</h3>
+                <form id="user-form">
+                    <div class="tooltip">
+                        <input type="text" name="username" placeholder="Enter username" required>
+                        <span class="tooltiptext">Enter your server username or ID</span>
+                    </div>
+                    <div class="tooltip">
+                        <select name="server" required>
+                            <option value="">Select server</option>
+                            <option value="nyc-01">NYC-01 (Primary)</option>
+                            <option value="lon-02">LON-02 (Backup)</option>
+                            <option value="sgp-03">SGP-03 (Asia)</option>
+                        </select>
+                        <span class="tooltiptext">Select which server to monitor</span>
+                    </div>
+                    <button type="submit">
+                        <i class="fas fa-chart-line"></i> Show Analytics
+                    </button>
                 </form>
             </div>
         </div>
-        <!-- Two Boxes Below: Server Resources and Ping Test -->
+        
+        <!-- Main Dashboard -->
         <div class="grid-container two-column">
-            <!-- Left Box: Server Resources -->
+            <!-- Server Resources -->
             <div class="card">
-                <h3><i class="fas fa-server" aria-label="Server"></i>Server Resources</h3>
+                <h3><i class="fas fa-server"></i>Server Resources</h3>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-microchip" aria-label="CPU"></i>CPU Usage</h4>
-                    <p id="cpu-usage">25%</p>
+                    <h4><i class="fas fa-microchip"></i>CPU Usage</h4>
+                    <p id="cpu-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="cpu-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="cpu-progress"></div>
                     </div>
                 </div>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-memory" aria-label="Memory"></i>Memory Usage</h4>
-                    <p id="memory-usage">4 GB / 16 GB (25%)</p>
+                    <h4><i class="fas fa-memory"></i>Memory Usage</h4>
+                    <p id="memory-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="memory-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="memory-progress"></div>
                     </div>
                 </div>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-hdd" aria-label="Disk"></i>Disk Usage</h4>
-                    <p id="disk-usage">50 GB / 200 GB (25%)</p>
+                    <h4><i class="fas fa-hdd"></i>Disk Usage</h4>
+                    <p id="disk-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="disk-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="disk-progress"></div>
+                    </div>
+                </div>
+                
+                <div class="resource-item">
+                    <h4><i class="fas fa-network-wired"></i>Network</h4>
+                    <p id="network-usage">Download: 0 Mbps | Upload: 0 Mbps</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="network-progress" style="width: 0%; background: var(--primary);"></div>
                     </div>
                 </div>
             </div>
-            <!-- Right Box: Ping Test -->
-            <div class="card ping-tool">
-                <h3><i class="fas fa-network-wired" aria-label="Ping"></i>Server Information</h3>
-                <button id="ping-button">Ping Server</button>
-                <div class="ping-result" id="ping-result">Ping: -</div>
-                <div class="server-location">
-                    <i class="fas fa-map-marker-alt" aria-label="Location"></i>
-                    <span>Server Location: <strong id="server-location">New York, USA</strong></span>
+            
+            <!-- Server Information -->
+            <div class="card">
+                <h3><i class="fas fa-info-circle"></i>Server Information</h3>
+                
+                <div class="server-info-item">
+                    <i class="fas fa-network-wired" style="color: var(--primary);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Ping Status</div>
+                        <div class="info-value">
+                            <span id="ping-result">-</span>
+                            <button id="ping-button" style="padding: 5px 10px; margin-left: 10px; font-size: 0.8rem;">
+                                <i class="fas fa-sync-alt"></i> Test
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="server-status">
-                    <i class="fas fa-heartbeat" aria-label="Status"></i>
-                    <span>Server Status: <strong id="server-status">Online</strong></span>
+                
+                <div class="server-info-item">
+                    <i class="fas fa-map-marker-alt" style="color: var(--danger);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Location</div>
+                        <div class="info-value" id="server-location">Loading...</div>
+                    </div>
+                </div>
+                
+                <div class="server-info-item">
+                    <i class="fas fa-heartbeat" style="color: var(--success);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Status</div>
+                        <div class="info-value">
+                            <span class="status-indicator online" id="server-status">
+                                Online
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="server-info-item">
+                    <i class="fas fa-clock" style="color: var(--text-light);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Uptime</div>
+                        <div class="info-value" id="server-uptime">0 days 00:00:00</div>
+                    </div>
+                </div>
+                
+                <div class="server-info-item">
+                    <i class="fas fa-shield-alt" style="color: var(--warning);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Security</div>
+                        <div class="info-value">
+                            <span class="status-indicator warning">
+                                Protected
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Additional Stats -->
+        <div class="grid-container three-column">
+            <div class="card">
+                <h3><i class="fas fa-chart-bar"></i>Performance</h3>
+                <div id="performance-chart" style="height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text-light);">
+                    [Performance Chart Placeholder]
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-history"></i>Recent Events</h3>
+                <div id="recent-events" style="color: var(--text-light);">
+                    <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-check-circle" style="color: var(--success);"></i> System updated (v2.5.1)
+                    </div>
+                    <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-bell" style="color: var(--warning);"></i> Backup completed
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <i class="fas fa-info-circle" style="color: var(--primary);"></i> New user connected
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-bell"></i>Notifications</h3>
+                <div id="notifications" style="color: var(--text-light);">
+                    <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fas fa-exclamation-triangle pulse" style="color: var(--warning);"></i> CPU threshold reached
+                    </div>
+                    <div style="padding: 8px 0;">
+                        <i class="fas fa-check pulse" style="color: var(--success);"></i> All systems operational
+                    </div>
+                </div>
+                <button style="width: 100%; margin-top: 15px;">
+                    <i class="fas fa-cog"></i> Configure Alerts
+                </button>
+            </div>
+        </div>
     </div>
+    
     <!-- Footer -->
     <div class="footer">
-        <p>© 2025 X-VIWE. All rights reserved. <span class="verified-by">✍️ Verified by - SAXHI-X</span></p>
+        <div class="footer-content">
+            <p>© 2025 X-VIWE Technologies. All rights reserved.</p>
+            <span class="verified-badge">
+                <i class="fas fa-shield-alt"></i> Verified by SAXHI-X
+            </span>
+        </div>
+        
         <div class="social-icons">
-            <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-            <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://github.com" target="_blank" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="https://discord.com" target="_blank" aria-label="Discord">
+                <i class="fab fa-discord"></i>
+            </a>
         </div>
     </div>
 
     <script>
-        // Real-Time Ping Tool
-        const pingButton = document.getElementById("ping-button");
-        const pingResult = document.getElementById("ping-result");
-        pingButton.addEventListener("click", async () => {
-            const startTime = Date.now();
-            pingResult.textContent = "Pinging...";
-            try {
-                const response = await fetch("/ping"); // Replace with your ping endpoint
-                const endTime = Date.now();
-                const pingTime = endTime - startTime;
-                // Update ping result
-                pingResult.textContent = `Ping: ${pingTime} ms`;
-            } catch (error) {
-                pingResult.textContent = "Ping failed";
+        // Configuration
+        const config = {
+            servers: {
+                'nyc-01': {
+                    name: 'New York #1',
+                    location: 'New York, USA',
+                    ip: '192.168.1.101'
+                },
+                'lon-02': {
+                    name: 'London #2',
+                    location: 'London, UK',
+                    ip: '192.168.1.102'
+                },
+                'sgp-03': {
+                    name: 'Singapore #3',
+                    location: 'Singapore',
+                    ip: '192.168.1.103'
+                }
+            },
+            pingThresholds: {
+                good: 50,    // ms
+                medium: 150   // ms
             }
-        });
-        // Function to Determine Progress Bar Color
-        function getProgressColor(percentage) {
-            if (percentage <= 50) {
-                return "#00ffea"; // Neon Blue for low usage
-            } else if (percentage > 50 && percentage <= 80) {
-                return "#FFA500"; // Orange for medium usage
-            } else {
-                return "#FF0000"; // Red for high usage
-            }
+        };
+        
+        // DOM Elements
+        const elements = {
+            cpuUsage: document.getElementById('cpu-usage'),
+            cpuProgress: document.getElementById('cpu-progress'),
+            memoryUsage: document.getElementById('memory-usage'),
+            memoryProgress: document.getElementById('memory-progress'),
+            diskUsage: document.getElementById('disk-usage'),
+            diskProgress: document.getElementById('disk-progress'),
+            networkUsage: document.getElementById('network-usage'),
+            networkProgress: document.getElementById('network-progress'),
+            pingResult: document.getElementById('ping-result'),
+            pingButton: document.getElementById('ping-button'),
+            serverLocation: document.getElementById('server-location'),
+            serverStatus: document.getElementById('server-status'),
+            serverUptime: document.getElementById('server-uptime'),
+            userForm: document.getElementById('user-form'),
+            serverSelect: document.querySelector('select[name="server"]')
+        };
+        
+        // State
+        let currentServer = 'nyc-01';
+        let uptimeInterval;
+        
+        // Initialize
+        function init() {
+            // Set default server
+            updateServerInfo(currentServer);
+            
+            // Start resource updates
+            updateResources();
+            setInterval(updateResources, 2000);
+            
+            // Start uptime counter
+            startUptimeCounter();
+            
+            // Form submission
+            elements.userForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = this.username.value;
+                const server = this.server.value;
+                if (username && server) {
+                    currentServer = server;
+                    updateServerInfo(server);
+                    alert(`Showing analytics for ${username} on ${config.servers[server].name}`);
+                }
+            });
+            
+            // Ping button
+            elements.pingButton.addEventListener('click', testPing);
+            
+            // Simulate initial load
+            setTimeout(() => {
+                updateResources();
+            }, 500);
         }
-        // Real-Time Server Resource Updates
-        setInterval(async () => {
-            const response = await fetch("/server-status");
-            const data = await response.json();
-            // Update CPU Usage
-            document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
-            const cpuProgress = document.getElementById("cpu-progress");
-            cpuProgress.style.width = `${data.cpu}%`;
-            cpuProgress.style.backgroundColor = getProgressColor(data.cpu);
-            // Update Memory Usage
-            document.getElementById("memory-usage").textContent = `${data.ram}%`;
-            const memoryProgress = document.getElementById("memory-progress");
-            memoryProgress.style.width = `${data.ram}%`;
-            memoryProgress.style.backgroundColor = getProgressColor(data.ram);
-            // Update Disk Usage
-            document.getElementById("disk-usage").textContent = `${data.disk}%`;
-            const diskProgress = document.getElementById("disk-progress");
-            diskProgress.style.width = `${data.disk}%`;
-            diskProgress.style.backgroundColor = getProgressColor(data.disk);
-        }, 1000);
-        // Fetch Server Location
-        (async () => {
-            const response = await fetch("/server-location");
-            const data = await response.json();
-            document.getElementById("server-location").textContent = `${data.city}, ${data.country}`;
-        })();
+        
+        // Update server information
+        function updateServerInfo(serverId) {
+            const server = config.servers[serverId];
+            if (!server) return;
+            
+            elements.serverLocation.textContent = server.location;
+            document.title = `X-VIWE - ${server.name}`;
+        }
+        
+        // Test ping
+        async function testPing() {
+            const originalText = elements.pingButton.innerHTML;
+            elements.pingButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            elements.pingButton.disabled = true;
+            
+            // Simulate network delay
+            const latency = Math.floor(Math.random() * 200) + 10;
+            
+            setTimeout(() => {
+                elements.pingResult.textContent = `${latency} ms`;
+                
+                // Update ping status
+                if (latency < config.pingThresholds.good) {
+                    elements.pingResult.className = 'good';
+                } else if (latency < config.pingThresholds.medium) {
+                    elements.pingResult.className = 'medium';
+                } else {
+                    elements.pingResult.className = 'bad';
+                }
+                
+                elements.pingButton.innerHTML = originalText;
+                elements.pingButton.disabled = false;
+            }, 800);
+        }
+        
+        // Update resource stats
+        function updateResources() {
+            // Simulate dynamic values
+            const cpu = Math.min(100, Math.floor(Math.random() * 30) + 20);
+            const memory = Math.min(100, Math.floor(Math.random() * 30) + 30);
+            const disk = Math.min(100, Math.floor(Math.random() * 10) + 45);
+            const download = Math.floor(Math.random() * 500) + 100;
+            const upload = Math.floor(Math.random() * 200) + 50;
+            const networkUsage = Math.min(100, Math.floor((download + upload) / 7));
+            
+            // Update CPU
+            elements.cpuUsage.textContent = `${cpu}% utilization`;
+            elements.cpuProgress.style.width = `${cpu}%`;
+            elements.cpuProgress.style.backgroundColor = getProgressColor(cpu);
+            
+            // Update Memory
+            const totalMem = 16;
+            const usedMem = Math.floor((memory / 100) * totalMem);
+            elements.memoryUsage.textContent = `${usedMem} GB / ${totalMem} GB (${memory}%)`;
+            elements.memoryProgress.style.width = `${memory}%`;
+            elements.memoryProgress.style.backgroundColor = getProgressColor(memory);
+            
+            // Update Disk
+            const totalDisk = 200;
+            const usedDisk = Math.floor((disk / 100) * totalDisk);
+            elements.diskUsage.textContent = `${usedDisk} GB / ${totalDisk} GB (${disk}%)`;
+            elements.diskProgress.style.width = `${disk}%`;
+            elements.diskProgress.style.backgroundColor = getProgressColor(disk);
+            
+            // Update Network
+            elements.networkUsage.textContent = `Download: ${download} Mbps | Upload: ${upload} Mbps`;
+            elements.networkProgress.style.width = `${networkUsage}%`;
+            elements.networkProgress.style.backgroundColor = getProgressColor(networkUsage);
+        }
+        
+        // Start uptime counter
+        function startUptimeCounter() {
+            let seconds = 0;
+            
+            if (uptimeInterval) {
+                clearInterval(uptimeInterval);
+            }
+            
+            uptimeInterval = setInterval(() => {
+                seconds++;
+                
+                const days = Math.floor(seconds / (3600 * 24));
+                const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+                const mins = Math.floor((seconds % 3600) / 60);
+                const secs = Math.floor(seconds % 60);
+                
+                elements.serverUptime.textContent = 
+                    `${days} days ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+        
+        // Get progress bar color based on percentage
+        function getProgressColor(percentage) {
+            if (percentage <= 50) return 'var(--success)';
+            if (percentage <= 80) return 'var(--warning)';
+            return 'var(--danger)';
+        }
+        
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>

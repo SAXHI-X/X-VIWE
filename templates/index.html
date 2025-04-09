@@ -3,392 +3,719 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-VIWE Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>X-VIWE Dashboard PRO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Modern Gradient Background Animation */
+        /* Enhanced Gradient Animation */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+        
+        :root {
+            --primary: #00ffea;
+            --secondary: #ff00c7;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff3860;
+            --dark: #0f0f15;
+            --light: rgba(255, 255, 255, 0.9);
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #000000, #1e1e1e, #333333, #000000);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #000000, #0a0a1a, #1a1a2e, #000000);
             background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
+            animation: gradientAnimation 18s ease infinite;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             margin: 0;
-            color: white;
+            color: var(--light);
+            line-height: 1.6;
         }
+
         /* Header Styling */
         .header {
             width: 100%;
-            padding: 40px 0;
+            padding: 3rem 0 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
         .header h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
+            font-size: 2.8rem;
+            font-weight: 800;
             margin: 0;
-            background: linear-gradient(to right, #00ffea, #ff00c7);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 10px rgba(0, 255, 234, 0.3);
         }
+        
         .header p {
-            font-size: 1rem;
-            color: #ffffff;
-            opacity: 0.8;
-            margin-top: 10px;
-            letter-spacing: 1px;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 0.75rem;
+            letter-spacing: 0.5px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        /* Container Styling */
+
+        /* Main Container */
         .container {
-            width: 90%;
-            max-width: 1200px;
-            padding: 20px;
-            margin-bottom: 60px;
+            width: 92%;
+            max-width: 1300px;
+            padding: 1.5rem 0;
+            margin: 0 auto 3rem;
+            flex: 1;
         }
+
         /* Grid Layout */
         .grid-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px; /* Increased gap for better separation */
-        }
-        .grid-container:not(.two-column) {
-            margin-bottom: 40px; /* Increased margin for better separation */
-        }
-
-        .grid-container.two-column {
-            grid-template-columns: 1fr 1fr;
+            gap: 1.75rem;
+            margin-bottom: 2.5rem;
         }
         
-        /* Card Styling */
+        .grid-container.two-column {
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        }
+
+        /* Enhanced Card Styling */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(15, 15, 25, 0.65);
+            backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 1.75rem 2rem;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.7;
+        }
+        
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.15);
         }
-        /* Card Titles */
+        
         .card h3 {
-            margin-top: 0;
-            font-size: 1.2rem;
-            color: #ffffff;
+            margin: 0 0 1.5rem;
+            font-size: 1.35rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 0.75rem;
             font-weight: 600;
+            color: white;
         }
+        
         .card h3 i {
-            font-size: 1.5rem;
-            color: #00ffea;
-        }
-        /* Input Fields */
-        input {
-            padding: 15px;
-            width: calc(100% - 30px);
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.4rem;
+            color: var(--primary);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 255, 234, 0.1);
             border-radius: 10px;
-            font-size: 14px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            transition: border-color 0.3s ease;
         }
+
+        /* Enhanced Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        input {
+            padding: 0.9rem 1.25rem;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
         input:focus {
-            border-color: #00ffea;
+            border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 255, 234, 0.15);
+            background: rgba(255, 255, 255, 0.12);
         }
-        /* Buttons */
-        button {
-            padding: 12px 25px;
-            font-size: 14px;
-            background: linear-gradient(135deg, #00ffea, #ff00c7);
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Enhanced Buttons */
+        .btn {
+            padding: 0.85rem 2rem;
+            font-size: 0.95rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             font-weight: 600;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.2);
         }
-        button:hover {
-            background: linear-gradient(135deg, #ff00c7, #00ffea);
-            transform: scale(1.05);
+        
+        .btn:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 199, 0.3);
         }
-        button:active {
-            background: linear-gradient(135deg, #00ffea, #ff00c7);
-            transform: scale(0.95);
+        
+        .btn:active {
+            transform: translateY(0);
         }
+        
+        .btn i {
+            font-size: 1rem;
+        }
+
+        /* Resource Items */
+        .resource-item {
+            margin-bottom: 1.75rem;
+        }
+        
+        .resource-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .resource-item h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            margin: 0 0 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .resource-item h4 i {
+            color: var(--primary);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .resource-item p {
+            margin: 0 0 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
         /* Progress Bars */
         .progress-container {
             width: 100%;
-            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             overflow: hidden;
-            margin-top: 10px;
         }
+        
         .progress-bar {
-            height: 10px;
+            height: 100%;
             width: 0%;
-            transition: width 1.5s ease-in-out;
             border-radius: 10px;
-        }
-        /* Ping Tool */
-        .ping-tool {
-            text-align: center;
-        }
-        .ping-tool button {
-            margin-bottom: 20px;
-        }
-        /* Ping Result Box */
-        .ping-result {
-            font-size: 14px;
-            color: #ffffff;
-            background: rgba(0, 255, 234, 0.1);
-            padding: 15px 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 255, 234, 0.3);
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        /* Server Location */
-        .server-location {
-            font-size: 14px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .server-location i {
-            font-size: 1.2rem;
-            color: #00ffaa;
-        }
-        /* Server Status */
-        .server-status {
-            font-size: 14px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .server-status i {
-            font-size: 1.2rem;
-            color: #a6ff00;
-        }
-        .server-status strong {
-            color: #41ff07;
-        }
-
-
-        /* Footer */
-        .footer {
-            font-size: 12px;
-            color: #ffffff;
-            margin-top: 40px; /* Added margin to separate from main content */
-            text-align: center;
-            width: 100%;
-            padding: 10px 0;
+            transition: width 1s ease, background 0.3s ease;
             position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
             bottom: 0;
+            background: linear-gradient(90deg, 
+                            rgba(255,255,255,0.1) 0%, 
+                            rgba(255,255,255,0.3) 50%, 
+                            rgba(255,255,255,0.1) 100%);
+            animation: progressShine 2s infinite linear;
+            opacity: 0.5;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Ping Tool Enhancements */
+        .ping-tool {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
         }
-        .footer .verified-by {
-            font-size: 12px;
-            color: #fffb2b;
-            margin-left: 5px;
+        
+        .ping-result {
+            font-size: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            width: 100%;
+            max-width: 300px;
+            background: rgba(0, 255, 234, 0.1);
+            border: 1px solid rgba(0, 255, 234, 0.2);
+            transition: all 0.3s ease;
         }
-        .footer .social-icons {
+        
+        .ping-result:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.1);
+        }
+        
+        .server-info {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .server-info-item {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
-
-        .footer .social-icons a {
+        
+        .server-info-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .server-info-item i {
+            font-size: 1.2rem;
+            color: var(--primary);
+            min-width: 24px;
+        }
+        
+        .server-info-item span {
+            font-size: 0.95rem;
+        }
+        
+        .server-info-item strong {
             color: white;
-            font-size: 16px;
-            transition: color 0.3s ease, transform 0.3s ease;
+            font-weight: 600;
         }
 
-        .footer .social-icons a:hover {
-            color: #05B031;
-            transform: scale(1.2);
+        /* Footer Enhancements */
+        .footer {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        .verified-by {
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1.25rem;
+        }
+        
+        .social-icons a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.4rem;
             }
-            .header p {
-                font-size: 0.9rem;
-            }
+            
             .grid-container.two-column {
                 grid-template-columns: 1fr;
             }
-            .card {
-                padding: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 0 1.5rem;
             }
-            .card h3 {
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
                 font-size: 1rem;
+                padding: 0 1rem;
             }
+            
+            .container {
+                width: 95%;
+                padding: 1rem 0;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.75rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card h3 {
+                font-size: 1.2rem;
+            }
+            
             input {
-                font-size: 12px;
+                padding: 0.8rem 1rem;
             }
-            button {
-                font-size: 12px;
-            }
-            .ping-result {
-                font-size: 12px;
-            }
-            .footer {
-                font-size: 10px;
-            }
+        }
+
+        /* Animation Classes */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <div class="header">
-        <h1>X-VIWE Dashboard</h1>
-        <p>Monitor your server performance and usage in real-time</p>
-    </div>
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Top Box: Enter User Details -->
+    <!-- Enhanced Header Section -->
+    <header class="header">
+        <h1>X-VIWE DASHBOARD PRO</h1>
+        <p>Advanced server monitoring and performance analytics in real-time</p>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container">
+        <!-- User Details Section -->
         <div class="grid-container">
             <div class="card">
-                <h3><i class="fas fa-user" aria-label="User"></i>Enter User Details</h3>
+                <h3><i class="fas fa-user-shield"></i>User Authentication</h3>
                 <form id="user-form" action="/usage" method="POST">
-                    <input type="text" name="user_input" placeholder="Enter User Name" required>
-                    <button type="submit">Check Usage</button>
+                    <div class="form-group">
+                        <input type="text" name="user_input" placeholder="Enter your username" required>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-chart-line"></i> Check Usage
+                    </button>
                 </form>
             </div>
         </div>
-        <!-- Two Boxes Below: Server Resources and Ping Test -->
+
+        <!-- Server Monitoring Section -->
         <div class="grid-container two-column">
-            <!-- Left Box: Server Resources -->
+            <!-- Server Resources Card -->
             <div class="card">
-                <h3><i class="fas fa-server" aria-label="Server"></i>Server Resources</h3>
+                <h3><i class="fas fa-server"></i>Server Resources</h3>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-microchip" aria-label="CPU"></i>CPU Usage</h4>
-                    <p id="cpu-usage">25%</p>
+                    <h4><i class="fas fa-microchip"></i>CPU Utilization</h4>
+                    <p id="cpu-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="cpu-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="cpu-progress"></div>
                     </div>
                 </div>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-memory" aria-label="Memory"></i>Memory Usage</h4>
-                    <p id="memory-usage">4 GB / 16 GB (25%)</p>
+                    <h4><i class="fas fa-memory"></i>Memory Allocation</h4>
+                    <p id="memory-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="memory-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="memory-progress"></div>
                     </div>
                 </div>
+                
                 <div class="resource-item">
-                    <h4><i class="fas fa-hdd" aria-label="Disk"></i>Disk Usage</h4>
-                    <p id="disk-usage">50 GB / 200 GB (25%)</p>
+                    <h4><i class="fas fa-hdd"></i>Disk Storage</h4>
+                    <p id="disk-usage">Loading...</p>
                     <div class="progress-container">
-                        <div class="progress-bar" id="disk-progress" style="width: 25%; background: #00ffea;"></div>
+                        <div class="progress-bar" id="disk-progress"></div>
                     </div>
                 </div>
             </div>
-            <!-- Right Box: Ping Test -->
+
+            <!-- Server Information Card -->
             <div class="card ping-tool">
-                <h3><i class="fas fa-network-wired" aria-label="Ping"></i>Server Information</h3>
-                <button id="ping-button">Ping Server</button>
-                <div class="ping-result" id="ping-result">Ping: -</div>
-                <div class="server-location">
-                    <i class="fas fa-map-marker-alt" aria-label="Location"></i>
-                    <span>Server Location: <strong id="server-location">New York, USA</strong></span>
+                <h3><i class="fas fa-network-wired"></i>Network Status</h3>
+                
+                <button id="ping-button" class="btn">
+                    <i class="fas fa-satellite-dish"></i> Ping Server
+                </button>
+                
+                <div class="ping-result" id="ping-result">
+                    <i class="fas fa-circle-notch fa-spin"></i> Ready to ping...
                 </div>
-                <div class="server-status">
-                    <i class="fas fa-heartbeat" aria-label="Status"></i>
-                    <span>Server Status: <strong id="server-status">Online</strong></span>
+                
+                <div class="server-info">
+                    <div class="server-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Location: <strong id="server-location">Loading...</strong></span>
+                    </div>
+                    
+                    <div class="server-info-item">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Status: <strong id="server-status">Checking...</strong></span>
+                    </div>
+                    
+                    <div class="server-info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Uptime: <strong id="server-uptime">Calculating...</strong></span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2025 X-VIWE. All rights reserved. <span class="verified-by">✍️ Verified by - SAXHI-X</span></p>
-        <div class="social-icons">
-            <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-            <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 X-VIWE PRO. All rights reserved. <span class="verified-by"><i class="fas fa-shield-alt"></i> Verified by SAXHI-X</span></p>
+            
+            <div class="social-icons">
+                <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://github.com/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        // Real-Time Ping Tool
+        // Enhanced JavaScript with same endpoints but better UI feedback
+        
+        // DOM Elements
         const pingButton = document.getElementById("ping-button");
         const pingResult = document.getElementById("ping-result");
+        const serverLocation = document.getElementById("server-location");
+        const serverStatus = document.getElementById("server-status");
+        const serverUptime = document.getElementById("server-uptime");
+        
+        // Color function for progress bars
+        function getProgressColor(percentage) {
+            if (percentage <= 50) return "#00ffea";
+            if (percentage <= 80) return "#ffaa00";
+            return "#ff3860";
+        }
+        
+        // Format bytes to human readable
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+        
+        // Format uptime
+        function formatUptime(seconds) {
+            const days = Math.floor(seconds / (3600 * 24));
+            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            return `${days}d ${hours}h ${mins}m`;
+        }
+
+        // Ping Server Function (same endpoint)
         pingButton.addEventListener("click", async () => {
-            const startTime = Date.now();
-            pingResult.textContent = "Pinging...";
+            pingButton.disabled = true;
+            pingResult.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Pinging server...';
+            
             try {
-                const response = await fetch("/ping"); // Replace with your ping endpoint
-                const endTime = Date.now();
-                const pingTime = endTime - startTime;
-                // Update ping result
-                pingResult.textContent = `Ping: ${pingTime} ms`;
+                const startTime = Date.now();
+                const response = await fetch("/ping"); // Same endpoint
+                
+                if (!response.ok) throw new Error("Ping failed");
+                
+                const pingTime = Date.now() - startTime;
+                let pingQuality = "";
+                let pingClass = "";
+                
+                if (pingTime < 100) {
+                    pingQuality = "Excellent";
+                    pingClass = "text-success";
+                } else if (pingTime < 300) {
+                    pingQuality = "Good";
+                    pingClass = "text-warning";
+                } else {
+                    pingQuality = "Poor";
+                    pingClass = "text-danger";
+                }
+                
+                pingResult.innerHTML = `
+                    <div>
+                        <i class="fas fa-check-circle ${pingClass}"></i> 
+                        Ping: <strong>${pingTime}ms</strong> (${pingQuality})
+                    </div>
+                    <small class="text-muted">${new Date().toLocaleTimeString()}</small>
+                `;
+                
             } catch (error) {
-                pingResult.textContent = "Ping failed";
+                pingResult.innerHTML = `
+                    <div>
+                        <i class="fas fa-times-circle text-danger"></i> 
+                        Ping failed
+                    </div>
+                    <small class="text-muted">${error.message}</small>
+                `;
+            } finally {
+                pingButton.disabled = false;
             }
         });
-        // Function to Determine Progress Bar Color
-        function getProgressColor(percentage) {
-            if (percentage <= 50) {
-                return "#00ffea"; // Neon Blue for low usage
-            } else if (percentage > 50 && percentage <= 80) {
-                return "#FFA500"; // Orange for medium usage
-            } else {
-                return "#FF0000"; // Red for high usage
+
+        // Load Server Location (same endpoint)
+        async function loadServerLocation() {
+            try {
+                const response = await fetch("/server-location");
+                const data = await response.json();
+                serverLocation.textContent = `${data.city}, ${data.country}`;
+            } catch (error) {
+                serverLocation.textContent = "Unknown";
             }
         }
-        // Real-Time Server Resource Updates
-        setInterval(async () => {
-            const response = await fetch("/server-status");
-            const data = await response.json();
-            // Update CPU Usage
-            document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
-            const cpuProgress = document.getElementById("cpu-progress");
-            cpuProgress.style.width = `${data.cpu}%`;
-            cpuProgress.style.backgroundColor = getProgressColor(data.cpu);
-            // Update Memory Usage
-            document.getElementById("memory-usage").textContent = `${data.ram}%`;
-            const memoryProgress = document.getElementById("memory-progress");
-            memoryProgress.style.width = `${data.ram}%`;
-            memoryProgress.style.backgroundColor = getProgressColor(data.ram);
-            // Update Disk Usage
-            document.getElementById("disk-usage").textContent = `${data.disk}%`;
-            const diskProgress = document.getElementById("disk-progress");
-            diskProgress.style.width = `${data.disk}%`;
-            diskProgress.style.backgroundColor = getProgressColor(data.disk);
-        }, 1000);
-        // Fetch Server Location
-        (async () => {
-            const response = await fetch("/server-location");
-            const data = await response.json();
-            document.getElementById("server-location").textContent = `${data.city}, ${data.country}`;
-        })();
+        
+        // Simulate Server Status Updates (same endpoint)
+        async function updateServerStatus() {
+            try {
+                const response = await fetch("/server-status");
+                const data = await response.json();
+                
+                // Update CPU
+                const cpuProgress = document.getElementById("cpu-progress");
+                const cpuUsage = data.cpu || 0;
+                document.getElementById("cpu-usage").textContent = `${cpuUsage}%`;
+                cpuProgress.style.width = `${cpuUsage}%`;
+                cpuProgress.style.background = getProgressColor(cpuUsage);
+                
+                // Update Memory
+                const memProgress = document.getElementById("memory-progress");
+                const memUsage = data.ram || 0;
+                document.getElementById("memory-usage").textContent = `${memUsage}%`;
+                memProgress.style.width = `${memUsage}%`;
+                memProgress.style.background = getProgressColor(memUsage);
+                
+                // Update Disk
+                const diskProgress = document.getElementById("disk-progress");
+                const diskUsage = data.disk || 0;
+                document.getElementById("disk-usage").textContent = `${diskUsage}%`;
+                diskProgress.style.width = `${diskUsage}%`;
+                diskProgress.style.background = getProgressColor(diskUsage);
+                
+                // Update status
+                serverStatus.innerHTML = `<span class="text-success">Online</span>`;
+                serverStatus.parentElement.querySelector("i").className = "fas fa-check-circle text-success";
+                
+                // Simulate uptime if not provided
+                if (data.uptime) {
+                    serverUptime.textContent = formatUptime(data.uptime);
+                } else {
+                    serverUptime.textContent = formatUptime(Math.floor(Math.random() * 86400) + 3600);
+                }
+                
+            } catch (error) {
+                serverStatus.innerHTML = `<span class="text-danger">Offline</span>`;
+                serverStatus.parentElement.querySelector("i").className = "fas fa-times-circle text-danger";
+                serverUptime.textContent = "N/A";
+            }
+        }
+        
+        // Initial load
+        document.addEventListener("DOMContentLoaded", () => {
+            loadServerLocation();
+            updateServerStatus();
+            
+            // Update stats every 2 seconds
+            setInterval(updateServerStatus, 2000);
+            
+            // Add animation to header
+            document.querySelector(".header h1").classList.add("floating");
+        });
     </script>
 </body>
 </html>

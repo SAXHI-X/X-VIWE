@@ -523,7 +523,7 @@
                     </div>
                     <div class="server-info-text">
                         <div class="server-info-label">Server Location</div>
-                        <div class="server-info-value" id="server-location">New York, USA</div>
+                        <div class="server-info-value" id="server-location">Loading...</div>
                     </div>
                 </div>
                 
@@ -567,7 +567,7 @@
     </div>
 
     <script>
-        // Enhanced Ping Tool with Realistic Response Times
+        // Corrected Ping Tool with Original Endpoint
         const pingButton = document.getElementById("ping-button");
         const pingResult = document.getElementById("ping-result");
         const lastPingTime = document.getElementById("last-ping-time");
@@ -578,91 +578,74 @@
             pingButton.disabled = true;
             pingResult.textContent = "Establishing connection...";
             
-            // Simulate realistic ping sequence
-            setTimeout(async () => {
-                try {
-                    const startTime = Date.now();
-                    // Replace with your actual ping endpoint
-                    const response = await fetch("/ping");
-                    const endTime = Date.now();
-                    const pingTime = endTime - startTime;
-                    
-                    // Classify ping quality
-                    let pingQuality;
-                    if (pingTime < 50) {
-                        pingQuality = "Excellent";
-                    } else if (pingTime < 100) {
-                        pingQuality = "Good";
-                    } else if (pingTime < 200) {
-                        pingQuality = "Fair";
-                    } else {
-                        pingQuality = "Poor";
-                    }
-                    
-                    // Update UI
-                    pingResult.innerHTML = `<strong>${pingTime} ms</strong> <span style="color: rgba(255,255,255,0.6)">(${pingQuality})</span>`;
-                    lastPingTime.textContent = new Date().toLocaleTimeString();
-                    
-                    // Add to ping history
-                    addPingHistory(pingTime, pingQuality);
-                } catch (error) {
-                    pingResult.innerHTML = '<span style="color: var(--danger)">Connection failed</span>';
-                } finally {
-                    pingButton.innerHTML = '<i class="fas fa-satellite-dish"></i> Initiate Ping Test';
-                    pingButton.disabled = false;
+            try {
+                const startTime = Date.now();
+                // Using the original ping endpoint from your code
+                const response = await fetch("/ping");  // Original endpoint
+                const endTime = Date.now();
+                const pingTime = endTime - startTime;
+                
+                // Classify ping quality
+                let pingQuality;
+                if (pingTime < 50) {
+                    pingQuality = "Excellent";
+                } else if (pingTime < 100) {
+                    pingQuality = "Good";
+                } else if (pingTime < 200) {
+                    pingQuality = "Fair";
+                } else {
+                    pingQuality = "Poor";
                 }
-            }, 800); // Simulate network delay
+                
+                // Update UI
+                pingResult.innerHTML = `<strong>${pingTime} ms</strong> <span style="color: rgba(255,255,255,0.6)">(${pingQuality})</span>`;
+                lastPingTime.textContent = new Date().toLocaleTimeString();
+            } catch (error) {
+                pingResult.innerHTML = '<span style="color: var(--danger)">Connection failed</span>';
+            } finally {
+                pingButton.innerHTML = '<i class="fas fa-satellite-dish"></i> Initiate Ping Test';
+                pingButton.disabled = false;
+            }
         });
         
-        // Realistic Server Resource Simulation
-        function simulateRealisticUsage() {
-            // CPU - Simulate variable load with occasional spikes
-            let cpuLoad = 20 + Math.sin(Date.now() / 5000) * 10 + Math.random() * 15;
-            cpuLoad = Math.min(100, Math.max(0, Math.round(cpuLoad)));
-            
-            // Memory - Simulate gradual changes with occasional garbage collection
-            let memoryLoad = 25 + Math.sin(Date.now() / 10000) * 10 + Math.random() * 5;
-            memoryLoad = Math.min(95, Math.max(5, Math.round(memoryLoad)));
-            const memoryUsed = Math.round(16 * (memoryLoad / 100) * 10) / 10;
-            
-            // Disk - Simulate slow growth with occasional cleanup
-            let diskLoad = 25 + (Date.now() % 86400000) / 86400000 * 5 + Math.random() * 3;
-            diskLoad = Math.min(95, Math.max(25, Math.round(diskLoad * 10) / 10));
-            const diskUsed = Math.round(200 * (diskLoad / 100));
-            
-            return {
-                cpu: cpuLoad,
-                ram: memoryLoad,
-                disk: diskLoad,
-                memoryUsed: memoryUsed,
-                diskUsed: diskUsed
-            };
-        }
-        
-        // Update Server Resources with Realistic Data
-        function updateServerResources() {
-            const data = simulateRealisticUsage();
-            
-            // Update CPU
-            document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
-            const cpuProgress = document.getElementById("cpu-progress");
-            cpuProgress.style.width = `${data.cpu}%`;
-            cpuProgress.style.background = getProgressColor(data.cpu);
-            
-            // Update Memory
-            document.getElementById("memory-usage").textContent = `${data.memoryUsed.toFixed(1)}/16 GB`;
-            const memoryProgress = document.getElementById("memory-progress");
-            memoryProgress.style.width = `${data.ram}%`;
-            memoryProgress.style.background = getProgressColor(data.ram);
-            
-            // Update Disk
-            document.getElementById("disk-usage").textContent = `${data.diskUsed}/200 GB`;
-            const diskProgress = document.getElementById("disk-progress");
-            diskProgress.style.width = `${data.disk}%`;
-            diskProgress.style.background = getProgressColor(data.disk);
-            
-            // Update Uptime
-            updateUptime();
+        // Server Resource Monitoring with Original Endpoints
+        async function updateServerResources() {
+            try {
+                // Using the original server-status endpoint from your code
+                const response = await fetch("/server-status");  // Original endpoint
+                const data = await response.json();
+                
+                // Update CPU
+                document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
+                const cpuProgress = document.getElementById("cpu-progress");
+                cpuProgress.style.width = `${data.cpu}%`;
+                cpuProgress.style.background = getProgressColor(data.cpu);
+                
+                // Update Memory - formatted as in original code
+                const memoryUsed = Math.round(16 * (data.ram / 100));
+                document.getElementById("memory-usage").textContent = `${memoryUsed} GB / 16 GB (${data.ram}%)`;
+                const memoryProgress = document.getElementById("memory-progress");
+                memoryProgress.style.width = `${data.ram}%`;
+                memoryProgress.style.background = getProgressColor(data.ram);
+                
+                // Update Disk - formatted as in original code
+                const diskUsed = Math.round(200 * (data.disk / 100));
+                document.getElementById("disk-usage").textContent = `${diskUsed} GB / 200 GB (${data.disk}%)`;
+                const diskProgress = document.getElementById("disk-progress");
+                diskProgress.style.width = `${data.disk}%`;
+                diskProgress.style.background = getProgressColor(data.disk);
+                
+                // Update Server Status
+                document.getElementById("server-status").innerHTML = 
+                    data.status === "Online" ? 
+                    `Online <span class="pulse">•</span>` : 
+                    `<span style="color: var(--danger)">Offline</span>`;
+                
+                // Update Uptime
+                updateUptime();
+            } catch (error) {
+                console.error("Error fetching server status:", error);
+            }
         }
         
         // Dynamic Progress Bar Colors
@@ -686,16 +669,28 @@
                 `${days} days, ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
         
+        // Fetch Server Location with Original Endpoint
+        async function fetchServerLocation() {
+            try {
+                // Using the original server-location endpoint from your code
+                const response = await fetch("/server-location");  // Original endpoint
+                const data = await response.json();
+                document.getElementById("server-location").textContent = 
+                    `${data.city}, ${data.country}`;  // Original format
+            } catch (error) {
+                document.getElementById("server-location").textContent = "Unknown Location";
+                console.error("Error fetching server location:", error);
+            }
+        }
+        
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             // Start resource updates
             updateServerResources();
-            setInterval(updateServerResources, 2000);
+            setInterval(updateServerResources, 1000);  // Original update interval
             
-            // Fetch server location (mock)
-            setTimeout(() => {
-                document.getElementById("server-location").textContent = "New York, USA (NYC1)";
-            }, 1500);
+            // Fetch server location
+            fetchServerLocation();
         });
     </script>
 </body>

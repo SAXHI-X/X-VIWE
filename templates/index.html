@@ -583,13 +583,13 @@
         <div class="grid-container">
             <div class="card">
                 <h3><i class="fas fa-user-cog"></i>User Management</h3>
-                <form id="user-form">
+                <form id="user-form" action="/usage" method="POST">
                     <div class="tooltip">
-                        <input type="text" name="username" placeholder="Enter username" required>
+                        <input type="text" name="user_input" placeholder="Enter username" required>
                         <span class="tooltiptext">Enter your server username or ID</span>
                     </div>
                     <button type="submit">
-                        <i class="fas fa-chart-line"></i> Show Analytics
+                        <i class="fas fa-chart-pie"></i> Check Usage
                     </button>
                 </form>
             </div>
@@ -745,24 +745,13 @@
     </div>
 
     <script>
-        // Configuration
+        // Configuration with your endpoints
         const config = {
-            servers: {
-                'nyc-01': {
-                    name: 'New York #1',
-                    location: 'New York, USA',
-                    ip: '192.168.1.101'
-                },
-                'lon-02': {
-                    name: 'London #2',
-                    location: 'London, UK',
-                    ip: '192.168.1.102'
-                },
-                'sgp-03': {
-                    name: 'Singapore #3',
-                    location: 'Singapore',
-                    ip: '192.168.1.103'
-                }
+            endpoints: {
+                ping: '/ping',
+                serverStatus: '/server-status',
+                serverLocation: '/server-location',
+                usage: '/usage'
             },
             pingThresholds: {
                 good: 50,    // ms
@@ -787,113 +776,113 @@
             userForm: document.getElementById('user-form')
         };
         
-        // State
-        let currentServer = 'nyc-01';
-        
         // Initialize
         function init() {
-            // Set default server
-            updateServerInfo(currentServer);
-            
             // Start resource updates
             updateResources();
             setInterval(updateResources, 2000);
             
             // Form submission
-            elements.userForm.addEventListener('submit', function(e) {
+            elements.userForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const username = this.username.value;
-                if (username) {
-                    alert(`Showing analytics for ${username}`);
+                const formData = new FormData(this);
+                try {
+                    const response = await fetch(config.endpoints.usage, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    alert(`Usage checked for ${formData.get('user_input')}`);
+                } catch (error) {
+                    console.error('Error checking usage:', error);
                 }
             });
             
             // Ping button
             elements.pingButton.addEventListener('click', testPing);
             
-            // Simulate initial load
-            setTimeout(() => {
-                updateResources();
-            }, 500);
+            // Initial server location fetch
+            fetchServerLocation();
         }
-        
-        // Update server information
-        function updateServerInfo(serverId) {
-            const server = config.servers[serverId];
-            if (!server) return;
-            
-            elements.serverLocation.textContent = server.location;
-            document.title = `X-VIWE - ${server.name}`;
-        }
-        
+
         // Test ping
         async function testPing() {
             const originalText = elements.pingButton.innerHTML;
             elements.pingButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
             elements.pingButton.disabled = true;
             
-            // Simulate network delay
-            const latency = Math.floor(Math.random() * 200) + 10;
-            
-            setTimeout(() => {
-                elements.pingResult.textContent = `${latency} ms`;
+            const startTime = Date.now();
+            try {
+                const response = await fetch(config.endpoints.ping);
+                const endTime = Date.now();
+                const pingTime = endTime - startTime;
                 
-                // Update ping status
-                if (latency < config.pingThresholds.good) {
+                // Update ping result with status classification
+                elements.pingResult.textContent = `${pingTime} ms`;
+                if (pingTime < config.pingThresholds.good) {
                     elements.pingResult.className = 'good';
-                } else if (latency < config.pingThresholds.medium) {
+                } else if (pingTime < config.pingThresholds.medium) {
                     elements.pingResult.className = 'medium';
                 } else {
                     elements.pingResult.className = 'bad';
                 }
-                
+            } catch (error) {
+                elements.pingResult.textContent = 'Error';
+                elements.pingResult.className = 'bad';
+            } finally {
                 elements.pingButton.innerHTML = originalText;
                 elements.pingButton.disabled = false;
-            }, 800);
+            }
         }
-        
+
         // Update resource stats
-        function updateResources() {
-            // Simulate dynamic values
-            const cpu = Math.min(100, Math.floor(Math.random() * 30) + 20);
-            const memory = Math.min(100, Math.floor(Math.random() * 30) + 30);
-            const disk = Math.min(100, Math.floor(Math.random() * 10) + 45);
-            const download = Math.floor(Math.random() * 500) + 100;
-            const upload = Math.floor(Math.random() * 200) + 50;
-            const networkUsage = Math.min(100, Math.floor((download + upload) / 7));
-            
-            // Update CPU
-            elements.cpuUsage.textContent = `${cpu}% utilization`;
-            elements.cpuProgress.style.width = `${cpu}%`;
-            elements.cpuProgress.style.backgroundColor = getProgressColor(cpu);
-            
-            // Update Memory
-            const totalMem = 16;
-            const usedMem = Math.floor((memory / 100) * totalMem);
-            elements.memoryUsage.textContent = `${usedMem} GB / ${totalMem} GB (${memory}%)`;
-            elements.memoryProgress.style.width = `${memory}%`;
-            elements.memoryProgress.style.backgroundColor = getProgressColor(memory);
-            
-            // Update Disk
-            const totalDisk = 200;
-            const usedDisk = Math.floor((disk / 100) * totalDisk);
-            elements.diskUsage.textContent = `${usedDisk} GB / ${totalDisk} GB (${disk}%)`;
-            elements.diskProgress.style.width = `${disk}%`;
-            elements.diskProgress.style.backgroundColor = getProgressColor(disk);
-            
-            // Update Network
-            elements.networkUsage.textContent = `Download: ${download} Mbps | Upload: ${upload} Mbps`;
-            elements.networkProgress.style.width = `${networkUsage}%`;
-            elements.networkProgress.style.backgroundColor = getProgressColor(networkUsage);
+        async function updateResources() {
+            try {
+                const response = await fetch(config.endpoints.serverStatus);
+                const data = await response.json();
+                
+                // Update CPU
+                elements.cpuUsage.textContent = `${data.cpu}% utilization`;
+                elements.cpuProgress.style.width = `${data.cpu}%`;
+                elements.cpuProgress.style.backgroundColor = getProgressColor(data.cpu);
+                
+                // Update Memory
+                const totalMem = 16;
+                const usedMem = Math.floor((data.ram / 100) * totalMem);
+                elements.memoryUsage.textContent = `${usedMem} GB / ${totalMem} GB (${data.ram}%)`;
+                elements.memoryProgress.style.width = `${data.ram}%`;
+                elements.memoryProgress.style.backgroundColor = getProgressColor(data.ram);
+                
+                // Update Disk
+                const totalDisk = 200;
+                const usedDisk = Math.floor((data.disk / 100) * totalDisk);
+                elements.diskUsage.textContent = `${usedDisk} GB / ${totalDisk} GB (${data.disk}%)`;
+                elements.diskProgress.style.width = `${data.disk}%`;
+                elements.diskProgress.style.backgroundColor = getProgressColor(data.disk);
+                
+            } catch (error) {
+                console.error('Error fetching resources:', error);
+            }
         }
-        
+
+        // Fetch server location
+        async function fetchServerLocation() {
+            try {
+                const response = await fetch(config.endpoints.serverLocation);
+                const data = await response.json();
+                elements.serverLocation.textContent = `${data.city}, ${data.country}`;
+            } catch (error) {
+                console.error('Error fetching server location:', error);
+            }
+        }
+
         // Get progress bar color based on percentage
         function getProgressColor(percentage) {
             if (percentage <= 50) return 'var(--success)';
             if (percentage <= 80) return 'var(--warning)';
             return 'var(--danger)';
         }
-        
+
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', init);
     </script>

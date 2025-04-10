@@ -413,6 +413,58 @@
             box-shadow: 0 0 8px var(--warning);
         }
         
+        /* Usage Results Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .close-modal {
+            color: var(--text-light);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .usage-results {
+            margin-top: 20px;
+        }
+        
+        .usage-item {
+            margin-bottom: 20px;
+        }
+        
         /* Footer */
         .footer {
             font-size: 12px;
@@ -508,6 +560,11 @@
             .container {
                 width: 95%;
             }
+            
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
         }
         
         @media (max-width: 480px) {
@@ -583,9 +640,9 @@
         <div class="grid-container">
             <div class="card">
                 <h3><i class="fas fa-user-cog"></i>User Management</h3>
-                <form id="user-form" action="/usage" method="POST">
+                <form id="user-form">
                     <div class="tooltip">
-                        <input type="text" name="user_input" placeholder="Enter username" required>
+                        <input type="text" name="username" placeholder="Enter username" required>
                         <span class="tooltiptext">Enter your server username or ID</span>
                     </div>
                     <button type="submit">
@@ -719,6 +776,16 @@
         </div>
     </div>
     
+    <!-- Usage Results Modal -->
+    <div id="usage-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="usage-results" class="usage-results">
+                <!-- Results will be inserted here -->
+            </div>
+        </div>
+    </div>
+    
     <!-- Footer -->
     <div class="footer">
         <div class="footer-content">
@@ -773,7 +840,10 @@
             pingButton: document.getElementById('ping-button'),
             serverLocation: document.getElementById('server-location'),
             serverStatus: document.getElementById('server-status'),
-            userForm: document.getElementById('user-form')
+            userForm: document.getElementById('user-form'),
+            usageModal: document.getElementById('usage-modal'),
+            usageResults: document.getElementById('usage-results'),
+            closeModal: document.querySelector('.close-modal')
         };
         
         // Initialize
@@ -785,26 +855,97 @@
             // Form submission
             elements.userForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const formData = new FormData(this);
+                const username = this.username.value.trim();
+                if (!username) return;
+                
                 try {
                     const response = await fetch(config.endpoints.usage, {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username })
                     });
-                    const data = await response.json();
-                    alert(`Usage checked for ${formData.get('user_input')}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch usage data');
+                    }
+                    
+                    const usageData = await response.json();
+                    showUsageResults(username, usageData);
                 } catch (error) {
                     console.error('Error checking usage:', error);
+                    showUsageResults(username, {
+                        error: true,
+                        message: 'Failed to load usage data. Please try again.'
+                    });
                 }
             });
             
             // Ping button
             elements.pingButton.addEventListener('click', testPing);
             
+            // Close modal button
+            elements.closeModal.addEventListener('click', () => {
+                elements.usageModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === elements.usageModal) {
+                    elements.usageModal.style.display = 'none';
+                }
+            });
+            
             // Initial server location fetch
             fetchServerLocation();
         }
-
+        
+        // Show usage results in modal
+        function showUsageResults(username, data) {
+            if (data.error) {
+                elements.usageResults.innerHTML = `
+                    <h3>Error Loading Usage Data</h3>
+                    <p>${data.message || 'An unknown error occurred'}</p>
+                `;
+            } else {
+                elements.usageResults.innerHTML = `
+                    <h3>Usage Details for ${username}</h3>
+                    <div class="usage-item">
+                        <h4><i class="fas fa-microchip"></i>CPU Usage</h4>
+                        <p>${data.cpu_usage || 0}% utilization</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${data.cpu_usage || 0}%; background: ${getProgressColor(data.cpu_usage || 0)};"></div>
+                        </div>
+                    </div>
+                    <div class="usage-item">
+                        <h4><i class="fas fa-memory"></i>Memory Usage</h4>
+                        <p>${data.memory_used || 0} MB / ${data.memory_total || 0} MB (${Math.round(((data.memory_used || 0)/(data.memory_total || 1)*100)}%)</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${Math.round(((data.memory_used || 0)/(data.memory_total || 1)*100)}%; background: ${getProgressColor(Math.round(((data.memory_used || 0)/(data.memory_total || 1)*100))};"></div>
+                        </div>
+                    </div>
+                    <div class="usage-item">
+                        <h4><i class="fas fa-hdd"></i>Disk Usage</h4>
+                        <p>${data.disk_used || 0} GB / ${data.disk_total || 0} GB (${Math.round(((data.disk_used || 0)/(data.disk_total || 1)*100)}%)</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${Math.round(((data.disk_used || 0)/(data.disk_total || 1)*100)}%; background: ${getProgressColor(Math.round(((data.disk_used || 0)/(data.disk_total || 1)*100))};"></div>
+                        </div>
+                    </div>
+                    <div class="usage-item">
+                        <h4><i class="fas fa-clock"></i>Last Active</h4>
+                        <p>${data.last_active || 'Unknown'}</p>
+                    </div>
+                    <div class="usage-item">
+                        <h4><i class="fas fa-calendar-alt"></i>Account Created</h4>
+                        <p>${data.account_created || 'Unknown'}</p>
+                    </div>
+                `;
+            }
+            
+            elements.usageModal.style.display = 'block';
+        }
+        
         // Test ping
         async function testPing() {
             const originalText = elements.pingButton.innerHTML;
@@ -817,24 +958,23 @@
                 const endTime = Date.now();
                 const pingTime = endTime - startTime;
                 
-                // Update ping result with status classification
                 elements.pingResult.textContent = `${pingTime} ms`;
                 if (pingTime < config.pingThresholds.good) {
-                    elements.pingResult.className = 'good';
+                    elements.pingResult.className = 'ping-result good';
                 } else if (pingTime < config.pingThresholds.medium) {
-                    elements.pingResult.className = 'medium';
+                    elements.pingResult.className = 'ping-result medium';
                 } else {
-                    elements.pingResult.className = 'bad';
+                    elements.pingResult.className = 'ping-result bad';
                 }
             } catch (error) {
                 elements.pingResult.textContent = 'Error';
-                elements.pingResult.className = 'bad';
+                elements.pingResult.className = 'ping-result bad';
             } finally {
                 elements.pingButton.innerHTML = originalText;
                 elements.pingButton.disabled = false;
             }
         }
-
+        
         // Update resource stats
         async function updateResources() {
             try {
@@ -864,7 +1004,7 @@
                 console.error('Error fetching resources:', error);
             }
         }
-
+        
         // Fetch server location
         async function fetchServerLocation() {
             try {
@@ -875,14 +1015,14 @@
                 console.error('Error fetching server location:', error);
             }
         }
-
+        
         // Get progress bar color based on percentage
         function getProgressColor(percentage) {
             if (percentage <= 50) return 'var(--success)';
             if (percentage <= 80) return 'var(--warning)';
             return 'var(--danger)';
         }
-
+        
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', init);
     </script>

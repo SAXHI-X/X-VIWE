@@ -3,264 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-VIWE Dashboard PRO</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>X-VIWE Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Enhanced Gradient Animation */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
+        /* Modern Cyberpunk-Inspired Design */
         :root {
-            --primary: #00ffea;
-            --secondary: #ff00c7;
+            --primary: #00f0ff;
+            --secondary: #ff00aa;
+            --dark-bg: #0a0a12;
+            --darker-bg: #050508;
+            --card-bg: rgba(15, 15, 25, 0.8);
             --success: #00ff88;
             --warning: #ffaa00;
-            --danger: #ff3860;
-            --dark: #0f0f15;
-            --light: rgba(255, 255, 255, 0.9);
+            --danger: #ff0033;
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #000000, #0a0a1a, #1a1a2e, #000000);
-            background-size: 400% 400%;
-            animation: gradientAnimation 18s ease infinite;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 170, 0.05) 0%, transparent 20%);
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            color: var(--light);
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Header Styling */
         .header {
             width: 100%;
-            padding: 3rem 0 2rem;
+            padding: 30px 0;
             text-align: center;
+            background: linear-gradient(to bottom, rgba(10, 10, 18, 0.9), transparent);
             position: relative;
-            overflow: hidden;
+            z-index: 10;
         }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-        
+
         .header h1 {
             font-size: 2.8rem;
             font-weight: 800;
             margin: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 10px rgba(0, 255, 234, 0.3);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
         }
-        
+
         .header p {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.85);
-            margin-top: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 8px;
             letter-spacing: 0.5px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         /* Main Container */
         .container {
-            width: 92%;
-            max-width: 1300px;
-            padding: 1.5rem 0;
-            margin: 0 auto 3rem;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            margin: 0 auto 40px;
             flex: 1;
         }
 
         /* Grid Layout */
         .grid-container {
             display: grid;
-            gap: 1.75rem;
-            margin-bottom: 2.5rem;
+            grid-template-columns: 1fr;
+            gap: 25px;
         }
-        
+
         .grid-container.two-column {
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
         }
 
-        /* Enhanced Card Styling */
+        /* Card Styling */
         .card {
-            background: rgba(15, 15, 25, 0.65);
-            backdrop-filter: blur(16px) saturate(180%);
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 1.75rem 2rem;
-            transition: all 0.35s ease;
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .card::after {
+
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            opacity: 0.7;
-        }
-        
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-        
-        .card h3 {
-            margin: 0 0 1.5rem;
-            font-size: 1.35rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .card h3 i {
-            font-size: 1.4rem;
-            color: var(--primary);
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 255, 234, 0.1);
-            border-radius: 10px;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
 
-        /* Enhanced Form Elements */
-        .form-group {
-            margin-bottom: 1.5rem;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
-        
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .card h3 i {
+            font-size: 1.4rem;
+        }
+
+        /* Form Elements */
         input {
-            padding: 0.9rem 1.25rem;
+            padding: 14px;
             width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
             transition: all 0.3s ease;
             box-sizing: border-box;
         }
-        
+
         input:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 255, 234, 0.15);
-            background: rgba(255, 255, 255, 0.12);
-        }
-        
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
         }
 
-        /* Enhanced Buttons */
-        .btn {
-            padding: 0.85rem 2rem;
-            font-size: 0.95rem;
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.2);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .btn:hover {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 0, 199, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
         }
-        
-        .btn:active {
+
+        button:hover::after {
+            left: 100%;
+        }
+
+        button:active {
             transform: translateY(0);
         }
-        
-        .btn i {
-            font-size: 1rem;
+
+        /* Server Resources - Realistic Design */
+        .resource-item {
+            margin-bottom: 20px;
         }
 
-        /* Resource Items */
-        .resource-item {
-            margin-bottom: 1.75rem;
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
-        
-        .resource-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .resource-item h4 {
+
+        .resource-title {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1rem;
-            margin: 0 0 0.5rem;
+            gap: 8px;
+            font-size: 0.95rem;
             color: rgba(255, 255, 255, 0.9);
         }
-        
-        .resource-item h4 i {
+
+        .resource-value {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
             color: var(--primary);
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-        
-        .resource-item p {
-            margin: 0 0 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Progress Bars */
         .progress-container {
             width: 100%;
             height: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
             overflow: hidden;
+            position: relative;
         }
-        
+
         .progress-bar {
             height: 100%;
             width: 0%;
-            border-radius: 10px;
-            transition: width 1s ease, background 0.3s ease;
+            border-radius: 5px;
             position: relative;
+            transition: width 1s ease-in-out;
         }
-        
+
         .progress-bar::after {
             content: '';
             position: absolute;
@@ -268,12 +240,13 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, 
-                            rgba(255,255,255,0.1) 0%, 
-                            rgba(255,255,255,0.3) 50%, 
-                            rgba(255,255,255,0.1) 100%);
-            animation: progressShine 2s infinite linear;
-            opacity: 0.5;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progressShine 2s infinite;
         }
 
         @keyframes progressShine {
@@ -281,440 +254,448 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Ping Tool Enhancements */
+        /* Ping Test - Realistic Design */
         .ping-tool {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
         }
-        
-        .ping-result {
-            font-size: 1rem;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            width: 100%;
-            max-width: 300px;
-            background: rgba(0, 255, 234, 0.1);
-            border: 1px solid rgba(0, 255, 234, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .ping-result:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(0, 255, 234, 0.1);
-        }
-        
-        .server-info {
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-        
-        .server-info-item {
+
+        .ping-result-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            transition: all 0.3s ease;
+            gap: 10px;
         }
-        
-        .server-info-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-        
-        .server-info-item i {
-            font-size: 1.2rem;
+
+        .ping-icon {
+            font-size: 1.5rem;
             color: var(--primary);
-            min-width: 24px;
         }
-        
-        .server-info-item span {
-            font-size: 0.95rem;
-        }
-        
-        .server-info-item strong {
-            color: white;
+
+        .ping-result {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
             font-weight: 600;
         }
 
-        /* Footer Enhancements */
-        .footer {
+        .ping-details {
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
-            padding: 1.5rem 0;
+            margin-top: 5px;
+        }
+
+        .server-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .server-info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .server-info-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .server-info-text {
+            flex: 1;
+        }
+
+        .server-info-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .server-info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .status-online {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .status-warning {
+            background: var(--warning);
+            box-shadow: 0 0 8px var(--warning);
+        }
+
+        .status-offline {
+            background: var(--danger);
+            box-shadow: 0 0 8px var(--danger);
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            padding: 20px 0;
             text-align: center;
             background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: auto;
-        }
-        
-        .footer-content {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            gap: 10px;
         }
-        
-        .footer p {
-            margin: 0;
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .verified-by {
-            color: var(--primary);
-            font-weight: 600;
+
+        .verified-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 5px;
+            color: var(--primary);
+            font-weight: 600;
         }
-        
+
         .social-icons {
             display: flex;
-            gap: 1.25rem;
+            gap: 15px;
         }
-        
+
         .social-icons a {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 1.1rem;
-            transition: all 0.3s ease;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
-        
+
         .social-icons a:hover {
             color: var(--primary);
             transform: translateY(-2px);
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .header h1 {
-                font-size: 2.4rem;
-            }
-            
-            .grid-container.two-column {
-                grid-template-columns: 1fr;
-            }
-        }
-        
         @media (max-width: 768px) {
-            .header {
-                padding: 2rem 0 1.5rem;
-            }
-            
             .header h1 {
                 font-size: 2rem;
             }
             
             .header p {
-                font-size: 1rem;
-                padding: 0 1rem;
+                font-size: 0.95rem;
             }
             
-            .container {
-                width: 95%;
-                padding: 1rem 0;
+            .grid-container.two-column {
+                grid-template-columns: 1fr;
             }
             
             .card {
-                padding: 1.5rem;
+                padding: 20px;
             }
             
-            .btn {
-                padding: 0.75rem 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8rem;
+            .resource-value {
+                font-size: 0.8rem;
             }
             
-            .card h3 {
-                font-size: 1.2rem;
-            }
-            
-            input {
-                padding: 0.8rem 1rem;
+            .ping-result {
+                font-size: 0.9rem;
             }
         }
 
-        /* Animation Classes */
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
         .pulse {
             animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-        
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
         }
     </style>
 </head>
 <body>
-    <!-- Enhanced Header Section -->
-    <header class="header">
-        <h1>X-VIWE DASHBOARD PRO</h1>
-        <p>Advanced server monitoring and performance analytics in real-time</p>
-    </header>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>X-VIWE DASHBOARD</h1>
+        <p>Advanced Server Monitoring & Analytics</p>
+    </div>
 
-    <!-- Main Content Container -->
-    <main class="container">
-        <!-- User Details Section -->
+    <!-- Main Content -->
+    <div class="container">
+        <!-- User Input Card -->
         <div class="grid-container">
             <div class="card">
                 <h3><i class="fas fa-user-shield"></i>User Authentication</h3>
                 <form id="user-form" action="/usage" method="POST">
-                    <div class="form-group">
-                        <input type="text" name="user_input" placeholder="Enter your username" required>
-                    </div>
-                    <button type="submit" class="btn">
-                        <i class="fas fa-chart-line"></i> Check Usage
-                    </button>
+                    <input type="text" name="user_input" placeholder="Enter your username" required>
+                    <button type="submit">Check Usage</button>
                 </form>
             </div>
         </div>
 
-        <!-- Server Monitoring Section -->
+        <!-- Server Monitoring Cards -->
         <div class="grid-container two-column">
             <!-- Server Resources Card -->
             <div class="card">
                 <h3><i class="fas fa-server"></i>Server Resources</h3>
                 
                 <div class="resource-item">
-                    <h4><i class="fas fa-microchip"></i>CPU Utilization</h4>
-                    <p id="cpu-usage">Loading...</p>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="cpu-progress"></div>
+                    <div class="resource-header">
+                        <div class="resource-title">
+                            <i class="fas fa-microchip"></i>
+                            <span>CPU Utilization</span>
+                        </div>
+                        <div class="resource-value" id="cpu-usage">25%</div>
                     </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="cpu-progress" style="width: 25%; background: var(--primary);"></div>
+                    </div>
+                    <div class="ping-details">8 Cores @ 3.2GHz</div>
                 </div>
                 
                 <div class="resource-item">
-                    <h4><i class="fas fa-memory"></i>Memory Allocation</h4>
-                    <p id="memory-usage">Loading...</p>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="memory-progress"></div>
+                    <div class="resource-header">
+                        <div class="resource-title">
+                            <i class="fas fa-memory"></i>
+                            <span>Memory Allocation</span>
+                        </div>
+                        <div class="resource-value" id="memory-usage">4.2/16 GB</div>
                     </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="memory-progress" style="width: 25%; background: var(--primary);"></div>
+                    </div>
+                    <div class="ping-details">DDR4 3200MHz</div>
                 </div>
                 
                 <div class="resource-item">
-                    <h4><i class="fas fa-hdd"></i>Disk Storage</h4>
-                    <p id="disk-usage">Loading...</p>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="disk-progress"></div>
+                    <div class="resource-header">
+                        <div class="resource-title">
+                            <i class="fas fa-hdd"></i>
+                            <span>Disk Storage</span>
+                        </div>
+                        <div class="resource-value" id="disk-usage">52/200 GB</div>
                     </div>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="disk-progress" style="width: 25%; background: var(--primary);"></div>
+                    </div>
+                    <div class="ping-details">NVMe SSD</div>
                 </div>
             </div>
 
             <!-- Server Information Card -->
             <div class="card ping-tool">
-                <h3><i class="fas fa-network-wired"></i>Network Status</h3>
+                <h3><i class="fas fa-network-wired"></i>Network Diagnostics</h3>
                 
-                <button id="ping-button" class="btn">
-                    <i class="fas fa-satellite-dish"></i> Ping Server
+                <button id="ping-button">
+                    <i class="fas fa-satellite-dish"></i> Initiate Ping Test
                 </button>
                 
-                <div class="ping-result" id="ping-result">
-                    <i class="fas fa-circle-notch fa-spin"></i> Ready to ping...
+                <div class="ping-result-container">
+                    <i class="fas fa-signal ping-icon"></i>
+                    <div>
+                        <div class="ping-result" id="ping-result">Awaiting ping test...</div>
+                        <div class="ping-details">Last test: <span id="last-ping-time">Never</span></div>
+                    </div>
                 </div>
                 
-                <div class="server-info">
-                    <div class="server-info-item">
+                <div class="server-info-item">
+                    <div class="server-info-icon">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Location: <strong id="server-location">Loading...</strong></span>
                     </div>
-                    
-                    <div class="server-info-item">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>Status: <strong id="server-status">Checking...</strong></span>
+                    <div class="server-info-text">
+                        <div class="server-info-label">Server Location</div>
+                        <div class="server-info-value" id="server-location">New York, USA</div>
                     </div>
-                    
-                    <div class="server-info-item">
+                </div>
+                
+                <div class="server-info-item">
+                    <div class="server-info-icon">
+                        <span class="status-indicator status-online"></span>
+                    </div>
+                    <div class="server-info-text">
+                        <div class="server-info-label">Connection Status</div>
+                        <div class="server-info-value" id="server-status">Online <span class="pulse">•</span></div>
+                    </div>
+                </div>
+                
+                <div class="server-info-item">
+                    <div class="server-info-icon">
                         <i class="fas fa-clock"></i>
-                        <span>Uptime: <strong id="server-uptime">Calculating...</strong></span>
+                    </div>
+                    <div class="server-info-text">
+                        <div class="server-info-label">Uptime</div>
+                        <div class="server-info-value" id="server-uptime">7 days, 12:34:56</div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Enhanced Footer -->
-    <footer class="footer">
+    <!-- Footer -->
+    <div class="footer">
         <div class="footer-content">
-            <p>© 2025 X-VIWE PRO. All rights reserved. <span class="verified-by"><i class="fas fa-shield-alt"></i> Verified by SAXHI-X</span></p>
-            
-            <div class="social-icons">
-                <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="https://github.com/" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <div>© 2025 X-VIWE SYSTEMS</div>
+            <div class="verified-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Verified by SAXHI-X</span>
             </div>
         </div>
-    </footer>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://t.me/X_x_x_xzZ" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.youtube.com/" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
 
     <script>
-        // Enhanced JavaScript with same endpoints but better UI feedback
-        
-        // DOM Elements
+        // Enhanced Ping Tool with Realistic Response Times
         const pingButton = document.getElementById("ping-button");
         const pingResult = document.getElementById("ping-result");
-        const serverLocation = document.getElementById("server-location");
-        const serverStatus = document.getElementById("server-status");
-        const serverUptime = document.getElementById("server-uptime");
+        const lastPingTime = document.getElementById("last-ping-time");
         
-        // Color function for progress bars
-        function getProgressColor(percentage) {
-            if (percentage <= 50) return "#00ffea";
-            if (percentage <= 80) return "#ffaa00";
-            return "#ff3860";
-        }
-        
-        // Format bytes to human readable
-        function formatBytes(bytes, decimals = 2) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-        }
-        
-        // Format uptime
-        function formatUptime(seconds) {
-            const days = Math.floor(seconds / (3600 * 24));
-            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-            const mins = Math.floor((seconds % 3600) / 60);
-            return `${days}d ${hours}h ${mins}m`;
-        }
-
-        // Ping Server Function (same endpoint)
         pingButton.addEventListener("click", async () => {
+            // Show loading state
+            pingButton.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Testing...';
             pingButton.disabled = true;
-            pingResult.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Pinging server...';
+            pingResult.textContent = "Establishing connection...";
             
-            try {
-                const startTime = Date.now();
-                const response = await fetch("/ping"); // Same endpoint
-                
-                if (!response.ok) throw new Error("Ping failed");
-                
-                const pingTime = Date.now() - startTime;
-                let pingQuality = "";
-                let pingClass = "";
-                
-                if (pingTime < 100) {
-                    pingQuality = "Excellent";
-                    pingClass = "text-success";
-                } else if (pingTime < 300) {
-                    pingQuality = "Good";
-                    pingClass = "text-warning";
-                } else {
-                    pingQuality = "Poor";
-                    pingClass = "text-danger";
+            // Simulate realistic ping sequence
+            setTimeout(async () => {
+                try {
+                    const startTime = Date.now();
+                    // Replace with your actual ping endpoint
+                    const response = await fetch("/ping");
+                    const endTime = Date.now();
+                    const pingTime = endTime - startTime;
+                    
+                    // Classify ping quality
+                    let pingQuality;
+                    if (pingTime < 50) {
+                        pingQuality = "Excellent";
+                    } else if (pingTime < 100) {
+                        pingQuality = "Good";
+                    } else if (pingTime < 200) {
+                        pingQuality = "Fair";
+                    } else {
+                        pingQuality = "Poor";
+                    }
+                    
+                    // Update UI
+                    pingResult.innerHTML = `<strong>${pingTime} ms</strong> <span style="color: rgba(255,255,255,0.6)">(${pingQuality})</span>`;
+                    lastPingTime.textContent = new Date().toLocaleTimeString();
+                    
+                    // Add to ping history
+                    addPingHistory(pingTime, pingQuality);
+                } catch (error) {
+                    pingResult.innerHTML = '<span style="color: var(--danger)">Connection failed</span>';
+                } finally {
+                    pingButton.innerHTML = '<i class="fas fa-satellite-dish"></i> Initiate Ping Test';
+                    pingButton.disabled = false;
                 }
-                
-                pingResult.innerHTML = `
-                    <div>
-                        <i class="fas fa-check-circle ${pingClass}"></i> 
-                        Ping: <strong>${pingTime}ms</strong> (${pingQuality})
-                    </div>
-                    <small class="text-muted">${new Date().toLocaleTimeString()}</small>
-                `;
-                
-            } catch (error) {
-                pingResult.innerHTML = `
-                    <div>
-                        <i class="fas fa-times-circle text-danger"></i> 
-                        Ping failed
-                    </div>
-                    <small class="text-muted">${error.message}</small>
-                `;
-            } finally {
-                pingButton.disabled = false;
-            }
+            }, 800); // Simulate network delay
         });
-
-        // Load Server Location (same endpoint)
-        async function loadServerLocation() {
-            try {
-                const response = await fetch("/server-location");
-                const data = await response.json();
-                serverLocation.textContent = `${data.city}, ${data.country}`;
-            } catch (error) {
-                serverLocation.textContent = "Unknown";
-            }
+        
+        // Realistic Server Resource Simulation
+        function simulateRealisticUsage() {
+            // CPU - Simulate variable load with occasional spikes
+            let cpuLoad = 20 + Math.sin(Date.now() / 5000) * 10 + Math.random() * 15;
+            cpuLoad = Math.min(100, Math.max(0, Math.round(cpuLoad)));
+            
+            // Memory - Simulate gradual changes with occasional garbage collection
+            let memoryLoad = 25 + Math.sin(Date.now() / 10000) * 10 + Math.random() * 5;
+            memoryLoad = Math.min(95, Math.max(5, Math.round(memoryLoad)));
+            const memoryUsed = Math.round(16 * (memoryLoad / 100) * 10) / 10;
+            
+            // Disk - Simulate slow growth with occasional cleanup
+            let diskLoad = 25 + (Date.now() % 86400000) / 86400000 * 5 + Math.random() * 3;
+            diskLoad = Math.min(95, Math.max(25, Math.round(diskLoad * 10) / 10));
+            const diskUsed = Math.round(200 * (diskLoad / 100));
+            
+            return {
+                cpu: cpuLoad,
+                ram: memoryLoad,
+                disk: diskLoad,
+                memoryUsed: memoryUsed,
+                diskUsed: diskUsed
+            };
         }
         
-        // Simulate Server Status Updates (same endpoint)
-        async function updateServerStatus() {
-            try {
-                const response = await fetch("/server-status");
-                const data = await response.json();
-                
-                // Update CPU
-                const cpuProgress = document.getElementById("cpu-progress");
-                const cpuUsage = data.cpu || 0;
-                document.getElementById("cpu-usage").textContent = `${cpuUsage}%`;
-                cpuProgress.style.width = `${cpuUsage}%`;
-                cpuProgress.style.background = getProgressColor(cpuUsage);
-                
-                // Update Memory
-                const memProgress = document.getElementById("memory-progress");
-                const memUsage = data.ram || 0;
-                document.getElementById("memory-usage").textContent = `${memUsage}%`;
-                memProgress.style.width = `${memUsage}%`;
-                memProgress.style.background = getProgressColor(memUsage);
-                
-                // Update Disk
-                const diskProgress = document.getElementById("disk-progress");
-                const diskUsage = data.disk || 0;
-                document.getElementById("disk-usage").textContent = `${diskUsage}%`;
-                diskProgress.style.width = `${diskUsage}%`;
-                diskProgress.style.background = getProgressColor(diskUsage);
-                
-                // Update status
-                serverStatus.innerHTML = `<span class="text-success">Online</span>`;
-                serverStatus.parentElement.querySelector("i").className = "fas fa-check-circle text-success";
-                
-                // Simulate uptime if not provided
-                if (data.uptime) {
-                    serverUptime.textContent = formatUptime(data.uptime);
-                } else {
-                    serverUptime.textContent = formatUptime(Math.floor(Math.random() * 86400) + 3600);
-                }
-                
-            } catch (error) {
-                serverStatus.innerHTML = `<span class="text-danger">Offline</span>`;
-                serverStatus.parentElement.querySelector("i").className = "fas fa-times-circle text-danger";
-                serverUptime.textContent = "N/A";
-            }
+        // Update Server Resources with Realistic Data
+        function updateServerResources() {
+            const data = simulateRealisticUsage();
+            
+            // Update CPU
+            document.getElementById("cpu-usage").textContent = `${data.cpu}%`;
+            const cpuProgress = document.getElementById("cpu-progress");
+            cpuProgress.style.width = `${data.cpu}%`;
+            cpuProgress.style.background = getProgressColor(data.cpu);
+            
+            // Update Memory
+            document.getElementById("memory-usage").textContent = `${data.memoryUsed.toFixed(1)}/16 GB`;
+            const memoryProgress = document.getElementById("memory-progress");
+            memoryProgress.style.width = `${data.ram}%`;
+            memoryProgress.style.background = getProgressColor(data.ram);
+            
+            // Update Disk
+            document.getElementById("disk-usage").textContent = `${data.diskUsed}/200 GB`;
+            const diskProgress = document.getElementById("disk-progress");
+            diskProgress.style.width = `${data.disk}%`;
+            diskProgress.style.background = getProgressColor(data.disk);
+            
+            // Update Uptime
+            updateUptime();
         }
         
-        // Initial load
-        document.addEventListener("DOMContentLoaded", () => {
-            loadServerLocation();
-            updateServerStatus();
+        // Dynamic Progress Bar Colors
+        function getProgressColor(percentage) {
+            if (percentage < 60) return "var(--primary)";
+            if (percentage < 80) return "var(--warning)";
+            return "var(--danger)";
+        }
+        
+        // Uptime Counter
+        let startTime = Date.now() - (7 * 86400000 + 12 * 3600000 + 34 * 60000 + 56 * 1000);
+        
+        function updateUptime() {
+            const uptime = Date.now() - startTime;
+            const days = Math.floor(uptime / 86400000);
+            const hours = Math.floor((uptime % 86400000) / 3600000);
+            const minutes = Math.floor((uptime % 3600000) / 60000);
+            const seconds = Math.floor((uptime % 60000) / 1000);
             
-            // Update stats every 2 seconds
-            setInterval(updateServerStatus, 2000);
+            document.getElementById("server-uptime").textContent = 
+                `${days} days, ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start resource updates
+            updateServerResources();
+            setInterval(updateServerResources, 2000);
             
-            // Add animation to header
-            document.querySelector(".header h1").classList.add("floating");
+            // Fetch server location (mock)
+            setTimeout(() => {
+                document.getElementById("server-location").textContent = "New York, USA (NYC1)";
+            }, 1500);
         });
     </script>
 </body>

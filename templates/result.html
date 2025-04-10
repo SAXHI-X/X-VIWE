@@ -3,259 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-VIEW USAGE</title>
+    <title>X-VIWE Usage Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Existing Gradient Background Animation */
+        /* Modern Gradient Background Animation */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
+        
+        :root {
+            --primary: #00ffea;
+            --secondary: #ff00c7;
+            --success: #00ff7f;
+            --warning: #ffa500;
+            --danger: #ff3860;
+            --text-light: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(-45deg, #535153, #26272b, #241f27, #009688);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000, #1a1a2e, #16213e, #000000);
             background-size: 400% 400%;
-            animation: gradientAnimation 10s ease infinite;
+            animation: gradientAnimation 15s ease infinite;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             color: white;
-            flex-direction: column;
+            line-height: 1.6;
         }
-
-        .container {
-            background: rgba(255, 255, 255, 0.12);
-            padding: 18px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        
+        /* Header Styling */
+        .header {
             width: 100%;
-            max-width: 400px;
-            text-align: left;
-        }
-
-        h2 {
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-size: 22px;
-            font-weight: bold;
+            padding: 20px 0;
             text-align: center;
+            position: relative;
         }
-
-        .info {
-            background: rgba(255, 255, 255, 0.15);
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #ffffff;
-            font-weight: bold;
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 255, 234, 0.3);
         }
-
+        
+        /* Container Styling */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Card Styling */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(0, 255, 234, 0.1),
+                rgba(255, 0, 199, 0.1)
+            );
+            transform: rotate(30deg);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Card Titles */
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .card h3 i {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        
+        /* Info Items */
+        .info-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .info-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* Progress Bars */
         .progress-container {
             width: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             overflow: hidden;
-            margin-top: 5px;
+            margin-top: 10px;
+            height: 8px;
         }
-
+        
         .progress-bar {
-            height: 6px;
+            height: 100%;
             width: 0%;
-            background: #05b00d; /* Default green color */
-            transition: width 1.5s ease-in-out, background-color 0.5s ease;
+            transition: width 1.5s ease-in-out, background 0.5s ease;
+            border-radius: 10px;
+            position: relative;
         }
-
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.3)
+            );
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+        
+        /* Toggle Switch */
         .toggle-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 10px 0;
         }
-
+        
         .toggle {
-            width: 32px;
-            height: 18px;
-            background: #bbb;
-            border-radius: 20px;
             position: relative;
+            width: 50px;
+            height: 24px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
-
-        .toggle:before {
-            content: "";
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            background: white;
-            border-radius: 50%;
-            top: 50%;
-            left: 2px;
-            transform: translateY(-50%);
-            transition: 0.3s;
-        }
-
+        
         .toggle.active {
-            background: #fa2cfa;
+            background: var(--success);
         }
-
-        .toggle.active:before {
-            left: 16px;
-        }
-
-        .footer {
-            font-size: 12px;
-            color: #ffffff;
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        /* ============= New Animation Background ========= */
-        .background {
-            background: linear-gradient(132deg, #3b3b3b, #272627, #0c0c0e);
-            background-size: 400% 400%;
-            animation: Gradient 15s ease infinite;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100%;
-            z-index: -1;
-        }
-
-        .cube {
+        
+        .toggle::before {
+            content: '';
             position: absolute;
-            top: 80vh;
-            left: 45vw;
-            width: 10px;
-            height: 10px;
-            border: solid 1px #D7D4E4;
-            transform-origin: top left;
-            transform: scale(0) rotate(0deg) translate(-50%, -50%);
-            animation: cube 12s ease-in forwards infinite;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
         }
-
-        .cube:nth-child(2n) {
-            border-color: #FFF;
+        
+        .toggle.active::before {
+            left: 28px;
+            background: white;
         }
-
-        .cube:nth-child(2) {
-            animation-delay: 2s;
-            left: 25vw;
-            top: 40vh;
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
-
-        .cube:nth-child(3) {
-            animation-delay: 4s;
-            left: 75vw;
-            top: 50vh;
+        
+        .status-indicator.online {
+            background: rgba(0, 255, 127, 0.1);
+            color: var(--success);
         }
-
-        .cube:nth-child(4) {
-            animation-delay: 6s;
-            left: 90vw;
-            top: 10vh;
+        
+        .status-indicator.offline {
+            background: rgba(255, 56, 96, 0.1);
+            color: var(--danger);
         }
-
-        .cube:nth-child(5) {
-            animation-delay: 8s;
-            left: 10vw;
-            top: 85vh;
+        
+        .status-indicator::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
         }
-
-        .cube:nth-child(6) {
-            animation-delay: 10s;
-            left: 50vw;
-            top: 10vh;
+        
+        .status-indicator.online::before {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
         }
-
-        @keyframes Gradient {
-            0% {
-                background-position: 0% 50%;
+        
+        .status-indicator.offline::before {
+            background: var(--danger);
+            box-shadow: 0 0 8px var(--danger);
+        }
+        
+        /* Footer */
+        .footer {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+            padding: 20px 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0, 255, 234, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            border: 1px solid rgba(0, 255, 234, 0.3);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
             }
-            50% {
-                background-position: 100% 50%;
+            
+            .header h1 {
+                font-size: 1.8rem;
             }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        @keyframes cube {
-            from {
-                transform: scale(0) rotate(0deg) translate(-50%, -50%);
-                opacity: 1;
-            }
-            to {
-                transform: scale(20) rotate(960deg) translate(-50%, -50%);
-                opacity: 0;
+            
+            .card {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- New Animated Background -->
-    <div class="background"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-    <div class="cube"></div>
-
-    <!-- Existing Content -->
+    <!-- Header Section -->
+    <div class="header">
+        <h1>X-VIWE Usage Dashboard</h1>
+    </div>
+    
+    <!-- Main Content -->
     <div class="container">
-        <h2>User Data Usage</h2>
-        <div class="info">Name: {{ email }}</div>
-        <div class="info">Uploaded: {{ up }} 
-            <div class="progress-container">
-                <div class="progress-bar" id="uploaded-bar"></div>
+        <div class="card">
+            <h3><i class="fas fa-user-circle"></i>User Data Usage</h3>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <span>User Email</span>
+                </div>
+                <div class="info-value">{{ email }}</div>
             </div>
-        </div>
-        <div class="info">Downloaded: {{ down }} 
-            <div class="progress-container">
-                <div class="progress-bar" id="downloaded-bar"></div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <span>Uploaded</span>
+                    <span>{{ up }}</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="uploaded-bar"></div>
+                </div>
             </div>
-        </div>
-        <div class="info">Limit: {{ total }} 
-            <div class="progress-container">
-                <div class="progress-bar" id="limit-bar"></div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <span>Downloaded</span>
+                    <span>{{ down }}</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="downloaded-bar"></div>
+                </div>
             </div>
-        </div>
-        <div class="info">Expiry Date: {{ expiry_date }}</div>
-        <div class="info toggle-container">
-            <span>Config Status:</span>
-            <div class="toggle" id="config-toggle"></div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <span>Total Limit</span>
+                    <span>{{ total }}</span>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="limit-bar"></div>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-label">
+                    <span>Expiry Date</span>
+                </div>
+                <div class="info-value">{{ expiry_date }}</div>
+            </div>
+            
+            <div class="info-item">
+                <div class="toggle-container">
+                    <span>Account Status</span>
+                    <div class="toggle" id="config-toggle"></div>
+                </div>
+            </div>
         </div>
     </div>
-
+    
+    <!-- Footer -->
     <div class="footer">
-        &copy; 2025 X-VIEW. All rights reserved.
+        <div>
+            <p>© 2025 X-VIWE Technologies. All rights reserved.</p>
+            <span class="verified-badge">
+                <i class="fas fa-shield-alt"></i> Verified by SAXHI-X
+            </span>
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             function parseValue(value) {
-                if (!value) return 0; // Handle empty or undefined values
+                if (!value) return 0;
                 return parseFloat(value.replace(/[^\d.]/g, '')) || 0;
             }
 
             function convertToMB(value, unit) {
-                if (!unit) return value; // Assume MB if no unit is provided
+                if (!unit) return value;
                 if (unit.includes("GB")) {
-                    return value * 1024; // Convert GB to MB
+                    return value * 1024;
                 } else if (unit.includes("KB")) {
-                    return value / 1024; // Convert KB to MB
+                    return value / 1024;
                 } else {
-                    return value; // Assume MB
+                    return value;
                 }
             }
 
             // Extract units from the Flask variables
-            let uploadedUnit = "{{ up }}".replace(/[^a-zA-Z]/g, ''); // Extract "MB", "GB", etc.
+            let uploadedUnit = "{{ up }}".replace(/[^a-zA-Z]/g, '');
             let downloadedUnit = "{{ down }}".replace(/[^a-zA-Z]/g, '');
             let totalLimitUnit = "{{ total }}".replace(/[^a-zA-Z]/g, '');
 
@@ -274,25 +441,23 @@
 
             function setProgressBarColor(progressBar, percentage) {
                 if (percentage <= 50) {
-                    progressBar.style.backgroundColor = "#05B031"; // Green
+                    progressBar.style.backgroundColor = "var(--success)";
                 } else if (percentage <= 80) {
-                    progressBar.style.backgroundColor = "#FFD700"; // Yellow
+                    progressBar.style.backgroundColor = "var(--warning)";
                 } else if (percentage <= 98) {
-                    progressBar.style.backgroundColor = "#FFA500"; // Orange
+                    progressBar.style.backgroundColor = "#FFA500";
                 } else {
-                    progressBar.style.backgroundColor = "#FF0000"; // Red
+                    progressBar.style.backgroundColor = "var(--danger)";
                 }
             }
 
             function animateProgressBar(id, value, max) {
                 let progressBar = document.getElementById(id);
-                if (!progressBar) {
-                    console.error(`Element with ID ${id} not found.`);
-                    return;
-                }
-                let percentage = (value / max) * 100; // Calculate percentage
-                progressBar.style.width = percentage + "%"; // Set width
-                setProgressBarColor(progressBar, percentage); // Set color
+                if (!progressBar) return;
+                
+                let percentage = (value / max) * 100;
+                progressBar.style.width = percentage + "%";
+                setProgressBarColor(progressBar, percentage);
             }
 
             // Animate progress bars based on usage
@@ -308,23 +473,18 @@
             let configStatus = "{{ user_status }}".trim().toLowerCase() === "enabled";
 
             let toggle = document.getElementById("config-toggle");
-            if (!toggle) {
-                console.error("Element with ID config-toggle not found.");
-            } else {
+            if (toggle) {
                 // Set initial toggle state
                 if (configStatus) {
                     toggle.classList.add("active");
-                } else {
-                    toggle.classList.remove("active");
                 }
 
                 // Add click event listener to toggle
                 toggle.addEventListener("click", function () {
                     this.classList.toggle("active");
                     let newStatus = this.classList.contains("active");
-                    console.log("New status:", newStatus);
-
-                    // Send new status to the server (optional)
+                    
+                    // Send new status to the server
                     fetch("/update-status", {
                         method: "POST",
                         headers: {
@@ -341,12 +501,6 @@
                     });
                 });
             }
-
-            // Debugging: Log values to the console
-            console.log("Uploaded: {{ up }}", uploaded);
-            console.log("Downloaded: {{ down }}", downloaded);
-            console.log("Total Limit: {{ total }}", totalLimit);
-            console.log("User Status: {{ user_status }}", configStatus);
         });
     </script>
 </body>

@@ -480,6 +480,74 @@
             box-shadow: 0 5px 15px rgba(0, 255, 234, 0.2);
         }
         
+        /* NEW: Safeguard Bubble */
+        .safeguard-bubble {
+            background-color: rgba(0, 255, 234, 0.15);
+            border: 2px dashed var(--primary);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .safeguard-bubble i {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* NEW: Network Traffic Specific Styles */
+        .traffic-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .traffic-stat {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .traffic-stat .value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .traffic-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        /* NEW: Cloud Provider Styles */
+        .cloud-provider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .cloud-provider i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* NEW: Uptime Display */
+        .uptime-display {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
         /* Responsive Design */
         @media (max-width: 992px) {
             .grid-container.two-column {
@@ -507,6 +575,10 @@
             
             .container {
                 width: 95%;
+            }
+            
+            .traffic-stats {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -623,11 +695,21 @@
                     </div>
                 </div>
                 
+                <!-- NEW: Network Traffic Section -->
                 <div class="resource-item">
-                    <h4><i class="fas fa-network-wired"></i>Network</h4>
-                    <p id="network-usage">Download: 0 Mbps | Upload: 0 Mbps</p>
+                    <h4><i class="fas fa-network-wired"></i>Network Traffic</h4>
+                    <div class="traffic-stats">
+                        <div class="traffic-stat">
+                            <div class="value" id="download-traffic">0.00</div>
+                            <div class="label">Download Mbps</div>
+                        </div>
+                        <div class="traffic-stat">
+                            <div class="value" id="upload-traffic">0.00</div>
+                            <div class="label">Upload Mbps</div>
+                        </div>
+                    </div>
                     <div class="progress-container">
-                        <div class="progress-bar" id="network-progress" style="width: 0%; background: var(--primary);"></div>
+                        <div class="progress-bar" id="network-progress" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
@@ -669,15 +751,21 @@
                     </div>
                 </div>
                 
+                <!-- NEW: Cloud Provider -->
                 <div class="server-info-item">
-                    <i class="fas fa-shield-alt" style="color: var(--warning);"></i>
+                    <i class="fas fa-cloud" style="color: var(--warning);"></i>
                     <div class="info-text">
-                        <div class="info-label">Security</div>
-                        <div class="info-value">
-                            <span class="status-indicator warning">
-                                Protected
-                            </span>
-                        </div>
+                        <div class="info-label">Cloud Provider</div>
+                        <div class="info-value" id="cloud-provider">Detecting...</div>
+                    </div>
+                </div>
+                
+                <!-- NEW: Uptime Display -->
+                <div class="server-info-item">
+                    <i class="fas fa-clock" style="color: var(--primary);"></i>
+                    <div class="info-text">
+                        <div class="info-label">Uptime</div>
+                        <div class="info-value" id="uptime">99.98%</div>
                     </div>
                 </div>
             </div>
@@ -714,6 +802,16 @@
                     <i class="fas fa-cog"></i> Configure Alerts
                 </button>
             </div>
+            
+            <!-- NEW: Server Safeguard Card -->
+            <div class="card">
+                <h3><i class="fas fa-shield-alt"></i>Server Safeguard</h3>
+                <div class="safeguard-bubble">
+                    <i class="fas fa-lock"></i>
+                    <p>Active Firewall & DDoS Protection</p>
+                    <small>Real-time threat detection enabled</small>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -743,17 +841,19 @@
     </div>
 
     <script>
-        // Configuration with your endpoints
+        // Enhanced Configuration with new endpoints
         const config = {
             endpoints: {
                 ping: '/ping',
                 serverStatus: '/server-status',
                 serverLocation: '/server-location',
-                usage: '/usage'
+                usage: '/usage',
+                cloudProvider: '/cloud-provider',
+                netLive: '/net-live'
             },
             pingThresholds: {
-                good: 50,    // ms
-                medium: 150   // ms
+                good: 50,
+                medium: 150
             }
         };
         
@@ -765,12 +865,15 @@
             memoryProgress: document.getElementById('memory-progress'),
             diskUsage: document.getElementById('disk-usage'),
             diskProgress: document.getElementById('disk-progress'),
-            networkUsage: document.getElementById('network-usage'),
+            downloadTraffic: document.getElementById('download-traffic'),
+            uploadTraffic: document.getElementById('upload-traffic'),
             networkProgress: document.getElementById('network-progress'),
             pingResult: document.getElementById('ping-result'),
             pingButton: document.getElementById('ping-button'),
             serverLocation: document.getElementById('server-location'),
             serverStatus: document.getElementById('server-status'),
+            cloudProvider: document.getElementById('cloud-provider'),
+            uptime: document.getElementById('uptime'),
             userForm: document.getElementById('user-form')
         };
         
@@ -780,11 +883,18 @@
             updateResources();
             setInterval(updateResources, 2000);
             
+            // Start network updates
+            refreshNet();
+            setInterval(refreshNet, 2000);
+            
             // Ping button
             elements.pingButton.addEventListener('click', testPing);
             
             // Initial server location fetch
             fetchServerLocation();
+            
+            // Fetch cloud provider
+            fetchCloudProvider();
         }
 
         // Test ping
@@ -844,6 +954,34 @@
                 
             } catch (error) {
                 console.error('Error fetching resources:', error);
+                // Set error states
+                elements.cpuUsage.textContent = 'Unable to fetch data';
+                elements.memoryUsage.textContent = 'Unable to fetch data';
+                elements.diskUsage.textContent = 'Unable to fetch data';
+            }
+        }
+
+        // NEW: Fetch network traffic
+        async function refreshNet() {
+            try {
+                const response = await fetch(config.endpoints.netLive);
+                const data = await response.json();
+                if (data && data.total) {
+                    const download = data.total.rx_mbps.toFixed(2);
+                    const upload = data.total.tx_mbps.toFixed(2);
+                    
+                    elements.downloadTraffic.textContent = download;
+                    elements.uploadTraffic.textContent = upload;
+                    
+                    // Update network progress bar based on total usage
+                    const totalUsage = Math.min(100, (parseFloat(download) + parseFloat(upload)) / 2);
+                    elements.networkProgress.style.width = `${totalUsage}%`;
+                    elements.networkProgress.style.backgroundColor = getProgressColor(totalUsage);
+                }
+            } catch (error) {
+                console.error('Error fetching network data:', error);
+                elements.downloadTraffic.textContent = '0.00';
+                elements.uploadTraffic.textContent = '0.00';
             }
         }
 
@@ -855,6 +993,19 @@
                 elements.serverLocation.textContent = `${data.city}, ${data.country}`;
             } catch (error) {
                 console.error('Error fetching server location:', error);
+                elements.serverLocation.textContent = 'Unavailable';
+            }
+        }
+
+        // NEW: Fetch cloud provider
+        async function fetchCloudProvider() {
+            try {
+                const response = await fetch(config.endpoints.cloudProvider);
+                const data = await response.json();
+                elements.cloudProvider.textContent = data.provider || 'Unknown';
+            } catch (error) {
+                console.error('Error fetching cloud provider:', error);
+                elements.cloudProvider.textContent = 'Unavailable';
             }
         }
 

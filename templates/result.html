@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -92,22 +91,20 @@
             gap: 12px;
         }
         
-        /* Smaller buttons */
         .btn {
             background: var(--primary);
             color: #fff;
             border: none;
-            border-radius: 8px; /* Smaller radius */
-            padding: 8px 16px; /* Smaller padding */
+            border-radius: 10px;
+            padding: 12px 20px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Smaller shadow */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
             font-weight: 600;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 6px; /* Smaller gap */
+            gap: 8px;
             transition: all 0.3s ease;
-            font-size: 0.9rem; /* Smaller font */
         }
         
         .btn.outline {
@@ -117,7 +114,7 @@
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
         
         /* Container Styling */
@@ -131,7 +128,7 @@
         /* Grid Layout */
         .grid {
             display: grid;
-            gap: 20px; /* Smaller gap */
+            gap: 25px;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
         }
         
@@ -143,29 +140,10 @@
             border: 1px solid var(--card-border);
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            padding: 20px; /* Smaller padding */
+            padding: 25px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-        }
-        
-        /* Smaller cards for specific sections */
-        .card.small {
-            padding: 15px; /* Even smaller padding */
-        }
-        
-        .card.small h3 {
-            font-size: 1.1rem; /* Smaller title */
-            margin-bottom: 15px; /* Smaller margin */
-        }
-        
-        .card.small .metric {
-            padding: 12px; /* Smaller metric padding */
-            margin: 8px 0; /* Smaller margin */
-        }
-        
-        .card.small .chart {
-            height: 180px; /* Smaller chart height */
         }
         
         .card::before {
@@ -480,8 +458,8 @@
             }
             
             .btn {
-                padding: 8px 14px;
-                font-size: 0.85rem;
+                padding: 10px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -512,7 +490,7 @@
         <div class="grid">
             <!-- User Overview -->
             <div class="card">
-                <span class="pill"><i class="fas fa-user-circle"></i> user@example.com</span>
+                <span class="pill"><i class="fas fa-user-circle"></i> {{ email }}</span>
                 <h3><i class="fas fa-id-badge"></i>User Overview</h3>
                 
                 <div class="metric">
@@ -525,7 +503,7 @@
                 
                 <div class="metric">
                     <div class="label"><i class="fas fa-calendar-xmark"></i> Expiry Date</div>
-                    <div class="badge" id="expiry-badge">2025-12-31</div>
+                    <div class="badge" id="expiry-badge">{{ expiry_date }}</div>
                 </div>
                 
                 <div class="muted">Toggle will POST to <code>/update-status</code></div>
@@ -537,7 +515,7 @@
                 
                 <div class="metric">
                     <div class="label"><i class="fas fa-upload"></i> Uploaded</div>
-                    <div class="badge">15.2 GB</div>
+                    <div class="badge">{{ up }}</div>
                 </div>
                 <div class="progress-container">
                     <div id="uploaded-bar" class="progress-bar"></div>
@@ -545,7 +523,7 @@
                 
                 <div class="metric">
                     <div class="label"><i class="fas fa-download"></i> Downloaded</div>
-                    <div class="badge">28.7 GB</div>
+                    <div class="badge">{{ down }}</div>
                 </div>
                 <div class="progress-container">
                     <div id="downloaded-bar" class="progress-bar"></div>
@@ -553,7 +531,7 @@
                 
                 <div class="metric">
                     <div class="label"><i class="fas fa-hard-drive"></i> Total Limit</div>
-                    <div class="badge">100 GB</div>
+                    <div class="badge">{{ total }}</div>
                 </div>
                 <div class="progress-container">
                     <div id="limit-bar" class="progress-bar"></div>
@@ -567,21 +545,21 @@
                 <div class="muted" id="expiry-desc">—</div>
             </div>
 
-            <!-- Summary Chart - Made smaller -->
-            <div class="card small">
+            <!-- Summary Chart -->
+            <div class="card">
                 <h3><i class="fas fa-chart-line"></i>Usage Summary</h3>
                 <div id="summary-chart" class="chart"></div>
                 <div class="muted">Uploaded vs Downloaded vs Remaining quota</div>
             </div>
 
-            <!-- Usage Breakdown - Made smaller -->
-            <div class="card small">
+            <!-- Usage Breakdown -->
+            <div class="card">
                 <h3><i class="fas fa-chart-pie"></i>Usage Breakdown</h3>
                 <div id="breakdown" class="chart small"></div>
             </div>
 
-            <!-- Quick Info - Made smaller -->
-            <div class="card small">
+            <!-- Quick Info -->
+            <div class="card">
                 <h3><i class="fas fa-circle-info"></i>Quick Info</h3>
                 
                 <div class="metric">
@@ -657,11 +635,11 @@
         }
 
         // ===== Read values from Jinja =====
-        const upStr = "15.2 GB";
-        const downStr = "28.7 GB";
-        const totalStr = "100 GB";
-        const userStatus = true;
-        const expiryStr = "2025-12-31";
+        const upStr = "{{ up }}";
+        const downStr = "{{ down }}";
+        const totalStr = "{{ total }}";
+        const userStatus = ("{{ user_status }}".trim().toLowerCase() === "enabled");
+        const expiryStr = "{{ expiry_date }}";
 
         // Convert to MB for calculations
         let upMB = toMB(parseNum(upStr), unit(upStr));
@@ -759,7 +737,7 @@
         const summaryOptions = {
             chart: { 
                 type: 'line', 
-                height: 240, // Smaller height
+                height: 280, 
                 foreColor: '#fff', 
                 toolbar: { show: false },
                 fontFamily: 'Segoe UI, Arial, sans-serif'
@@ -797,7 +775,7 @@
         const breakdownOptions = {
             chart: { 
                 type: 'donut', 
-                height: 180, // Smaller height
+                height: 220, 
                 foreColor: '#fff', 
                 toolbar: { show: false },
                 fontFamily: 'Segoe UI, Arial, sans-serif'
@@ -830,7 +808,7 @@
         const gaugeOptions = {
             chart: { 
                 type: 'radialBar', 
-                height: 180, // Smaller height
+                height: 220, 
                 foreColor: '#fff', 
                 toolbar: { show: false },
                 fontFamily: 'Segoe UI, Arial, sans-serif'
@@ -843,13 +821,13 @@
                     hollow: { size: '58%' },
                     dataLabels: {
                         name: { 
-                            fontSize: '12px', // Smaller font
+                            fontSize: '14px',
                             color: '#fff'
                         },
                         value: { 
                             formatter: (val) => val.toFixed(0) + '%',
                             color: '#fff',
-                            fontSize: '18px', // Smaller font
+                            fontSize: '20px',
                             fontWeight: 'bold'
                         }
                     }
